@@ -4,6 +4,7 @@ import coverImg from "../../../assets/menu/menu-bg.jpg";
 import dessertBg from "../../../assets/menu/dessert-bg.jpeg";
 import pizzaBg from "../../../assets/menu/pizza-bg.jpg";
 import saladBg from "../../../assets/menu/salad-bg.jpg";
+import soupBg from "../../../assets/menu/soup-bg.jpg";
 import { useMenu } from "../../../Hooks/useMenu";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import MenuCategory from "../MenuCategory/MenuCategory";
@@ -27,7 +28,8 @@ export default function Menu() {
       <MenuCategory menus={offered} />
       <MenuCategory menus={deserts} title={"Desserts"} coverImg={dessertBg} />
       <MenuCategory menus={pizza} title={"Pizza"} coverImg={pizzaBg} />
-      <MenuCategory menus={salad} title={"Salad"} coverImg={saladBg} />s
+      <MenuCategory menus={salad} title={"Salad"} coverImg={saladBg} />
+      <MenuCategory menus={soup} title={"Soup"} coverImg={soupBg} />
     </div>
   );
 }
