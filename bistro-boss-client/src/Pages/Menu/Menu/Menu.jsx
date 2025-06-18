@@ -25,11 +25,12 @@ export default function Menu() {
       {/* main cover */}
       <SectionCover img={coverImg} title={"Our Menu"} />
       <SectionTitle title={"Today's Offer"} subtitle={"Don't miss"} />
+
       <MenuCategory menus={offered} />
-      <MenuCategory menus={deserts} title={"Desserts"} coverImg={dessertBg} />
-      <MenuCategory menus={pizza} title={"Pizza"} coverImg={pizzaBg} />
-      <MenuCategory menus={salad} title={"Salad"} coverImg={saladBg} />
-      <MenuCategory menus={soup} title={"Soup"} coverImg={soupBg} />
+      <MenuCategory menus={deserts} title={"dessert"} coverImg={dessertBg} />
+      <MenuCategory menus={pizza} title={"pizza"} coverImg={pizzaBg} />
+      <MenuCategory menus={salad} title={"salad"} coverImg={saladBg} />
+      <MenuCategory menus={soup} title={"soup"} coverImg={soupBg} />
     </div>
   );
 }

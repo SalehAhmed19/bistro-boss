@@ -1,22 +1,21 @@
-export default function FoodCard({ menu }) {
-  const { name, image, price, recipe } = menu;
+export default function FoodCard({ item }) {
+  const { name, image, price, recipe } = item;
   return (
     <div className="card bg-base-100 w-96 shadow-sm">
-      <figure className="px-10 pt-10">
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-          alt="Shoes"
-          className="rounded-xl"
-        />
+      <figure className="px-5 pt-5">
+        <img src={image} alt="Shoes" className="rounded-xl" />
       </figure>
+      <p className="bg-black text-orange-400 absolute right-0 mr-2 mt-2 p-2 rounded-md">
+        $ {price}
+      </p>
       <div className="card-body items-center text-center">
-        <h2 className="card-title">Card Title</h2>
-        <p>
-          A card component has a figure, a body part, and inside body there are
-          title and actions parts
-        </p>
+        <h2 className="card-title">{name}</h2>
+        <p>{recipe}</p>
+
         <div className="card-actions">
-          <button className="btn btn-primary">Buy Now</button>
+          <button className="btn btn-outline border-0 border-b-4">
+            Add to cart
+          </button>
         </div>
       </div>
     </div>
