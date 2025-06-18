@@ -10,7 +10,7 @@ export default function SectionCover({ img, title }) {
       strength={-200}
     >
       <div className="hero h-[500px] my-20">
-        {/* <div className="hero-overlay"></div> */}
+        <div className="hero-overlay"></div>
         <div className="hero-content text-neutral-content text-center py-24 px-36 rounded-md">
           <div className="max-w-md">
             <h1 className="mb-5 text-5xl font-bold uppercase">{title}</h1>
