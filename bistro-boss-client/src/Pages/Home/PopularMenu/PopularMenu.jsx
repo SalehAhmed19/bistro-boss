@@ -21,6 +21,10 @@ export default function PopularMenu() {
           <MenuItem menu={menu} key={menu._id} />
         ))}
       </div>
+
+      <button className="btn btn-outline mt-5 uppercase border-0 border-b-4 block mx-auto mb-10">
+        View Full Menu
+      </button>
     </section>
   );
 }
