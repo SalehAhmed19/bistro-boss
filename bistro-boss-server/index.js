@@ -32,6 +32,16 @@ async function run() {
 
       res.send(result);
     });
+
+    const reviewsCollection = client
+      .db("bistroDb")
+      .collection("reviewsCollection");
+
+    app.get("/reviews", async (req, res) => {
+      const result = await reviewsCollection.find().toArray();
+
+      res.send(result);
+    });
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(

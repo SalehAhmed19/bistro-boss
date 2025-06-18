@@ -13,7 +13,7 @@ export default function FoodCard({ item }) {
         <p>{recipe}</p>
 
         <div className="card-actions">
-          <button className="btn btn-outline border-0 border-b-4">
+          <button className="btn btn-outline border-0 border-b-4 border-orange-400">
             Add to cart
           </button>
         </div>
