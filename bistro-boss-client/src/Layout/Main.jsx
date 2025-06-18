@@ -5,12 +5,14 @@ import Navbar from "../Pages/Shared/Navbar/Navbar";
 export default function Main() {
   const location = useLocation();
   const isLogin = location.pathname.includes("login");
-  console.log(location);
+  const isSignup = location.pathname.includes("signup");
+
+  const showNavFoot = isLogin || isSignup;
   return (
     <div>
-      {isLogin || <Navbar />}
+      {showNavFoot || <Navbar />}
       <Outlet />
-      {isLogin || <Footer />}
+      {showNavFoot || <Footer />}
     </div>
   );
 }
