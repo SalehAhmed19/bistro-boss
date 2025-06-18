@@ -9,7 +9,7 @@ export default function SectionCover({ img, title }) {
       bgImageAlt="the dog"
       strength={-200}
     >
-      <div className="hero h-[800px] my-20">
+      <div className="hero h-[500px] my-20">
         {/* <div className="hero-overlay"></div> */}
         <div className="hero-content text-neutral-content text-center py-24 px-36 rounded-md">
           <div className="max-w-md">
