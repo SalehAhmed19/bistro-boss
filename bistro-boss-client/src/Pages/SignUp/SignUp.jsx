@@ -1,16 +1,18 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthContext";
 import Swal from "sweetalert2";
 
 export default function SignUp() {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -20,13 +22,23 @@ export default function SignUp() {
       const loggeduser = result.user;
       console.log(loggeduser);
 
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Your work has been saved",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      updateUserProfile(data.name, data.photoUrl)
+        .then(() => {
+          console.log("User info updated!");
+          reset();
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Signed up successfully!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
   };
 
@@ -61,6 +73,18 @@ export default function SignUp() {
                 {errors.name && (
                   <span className="text-red-500">Name is required</span>
                 )}
+
+                <label className="label">Photo Url</label>
+                <input
+                  {...register("photoUrl", { required: true })}
+                  type="text"
+                  className="input w-full"
+                  placeholder="Photo URL"
+                />
+                {errors.name && (
+                  <span className="text-red-500">Photo URL is required</span>
+                )}
+
                 <label className="label">Email</label>
                 <input
                   {...register("email", { required: true })}
@@ -72,6 +96,7 @@ export default function SignUp() {
                 {errors.name && (
                   <span className="text-red-500">Email is required</span>
                 )}
+
                 <label className="label">Password</label>
                 <input
                   {...register("password", {
