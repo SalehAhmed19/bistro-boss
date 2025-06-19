@@ -64,6 +64,12 @@ export default function Navbar() {
       </div>
       {user ? (
         <div className="navbar-end">
+          <div className="avatar mr-4">
+            <div className="mask mask-squircle w-12">
+              <img src={user?.photoURL} />
+            </div>
+          </div>
+          <span className="mr-4">{user?.displayName}</span>
           <button onClick={handleSignOut} className="btn">
             Signout
           </button>
