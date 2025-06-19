@@ -22,6 +22,9 @@ export default function Navbar() {
       <li>
         <Link to="/order/salad">Order</Link>
       </li>
+      <li>
+        <Link to="/secret">Secret</Link>
+      </li>
     </>
   );
 

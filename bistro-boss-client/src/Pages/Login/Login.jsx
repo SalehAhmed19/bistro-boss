@@ -8,11 +8,16 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import { AuthContext } from "../../Providers/AuthContext";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 
 export default function Login() {
   const [disable, setDisable] = useState(true);
   const [validate, setValidate] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const { signIn } = useContext(AuthContext);
   useEffect(() => {
@@ -37,6 +42,8 @@ export default function Login() {
         showConfirmButton: false,
         timer: 1500,
       });
+
+      navigate(from, { replace: true });
     });
   };
 
