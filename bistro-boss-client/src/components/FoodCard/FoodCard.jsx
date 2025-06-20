@@ -1,5 +1,57 @@
+import { useLocation, useNavigate } from "react-router";
+import axios from "axios";
+import { FaShoppingCart } from "react-icons/fa";
+
+import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
+
 export default function FoodCard({ item }) {
-  const { name, image, price, recipe } = item;
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { _id, name, image, price, recipe } = item;
+  const handleAddToCart = (food) => {
+    if (user && user.email) {
+      // send cart item to the database
+      const cartItem = {
+        foodId: _id,
+        image: image,
+        email: user.email,
+        name: name,
+        price: price,
+      };
+
+      axios.post("http://localhost:5000/carts", cartItem).then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: `${name} added to cart!`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        title: "You are not logged in :(",
+        text: "Please login!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // send user to the login page
+          navigate("/login", { state: { from: location } });
+        }
+      });
+    }
+    console.log(food, { user: user.email });
+  };
   return (
     <div className="card bg-base-100 w-96 shadow-sm">
       <figure className="px-5 pt-5">
@@ -13,7 +65,10 @@ export default function FoodCard({ item }) {
         <p>{recipe}</p>
 
         <div className="card-actions">
-          <button className="btn btn-outline border-0 border-b-4 border-orange-400">
+          <button
+            onClick={() => handleAddToCart(item)}
+            className="btn btn-outline border-0 border-b-4 border-orange-400"
+          >
             Add to cart
           </button>
         </div>
