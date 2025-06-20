@@ -32,7 +32,7 @@ export default function Navbar() {
         <Link to="/secret">Secret</Link>
       </li>
       <li>
-        <Link to="/cart">
+        <Link to="dashboard/cart">
           <>
             Cart <FaShoppingCart />
             <div className="badge badge-sm badge-warning">+{carts.length}</div>
