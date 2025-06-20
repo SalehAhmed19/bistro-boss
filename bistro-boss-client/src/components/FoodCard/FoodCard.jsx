@@ -4,16 +4,19 @@ import { FaShoppingCart } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxios from "../../Hooks/useAxios";
+import useCarts from "../../Hooks/useCarts";
 
 export default function FoodCard({ item }) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [, refetch] = useCarts();
+
   const axiosSecure = useAxios();
 
   const { _id, name, image, price, recipe } = item;
-  const handleAddToCart = (food) => {
+  const handleAddToCart = () => {
     if (user && user.email) {
       // send cart item to the database
       const cartItem = {
@@ -34,6 +37,9 @@ export default function FoodCard({ item }) {
             showConfirmButton: false,
             timer: 2000,
           });
+
+          // refetch to update
+          refetch();
         }
       });
     } else {
@@ -52,7 +58,7 @@ export default function FoodCard({ item }) {
         }
       });
     }
-    console.log(food, { user: user.email });
+    console.log({ user: user.email });
   };
   return (
     <div className="card bg-base-100 w-96 shadow-sm">
@@ -68,7 +74,7 @@ export default function FoodCard({ item }) {
 
         <div className="card-actions">
           <button
-            onClick={() => handleAddToCart(item)}
+            onClick={handleAddToCart}
             className="btn btn-outline border-0 border-b-4 border-orange-400"
           >
             Add to cart
