@@ -29,9 +29,6 @@ export default function Navbar() {
         <Link to="/order/salad">Order</Link>
       </li>
       <li>
-        <Link to="/secret">Secret</Link>
-      </li>
-      <li>
         <Link to="dashboard/cart">
           <>
             Cart <FaShoppingCart />
@@ -90,9 +87,9 @@ export default function Navbar() {
         </div>
       ) : (
         <div className="navbar-end">
-          <button className="btn">
-            <Link to="/login">Login</Link>
-          </button>
+          <Link to="/login">
+            <button className="btn">Login</button>
+          </Link>
         </div>
       )}
     </div>

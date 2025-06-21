@@ -4,8 +4,11 @@ import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
 import { AuthContext } from "@/Providers/AuthContext";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 export default function SignUp() {
+  const axiosPublic = useAxiosPublic();
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -24,17 +27,25 @@ export default function SignUp() {
 
       updateUserProfile(data.name, data.photoUrl)
         .then(() => {
-          console.log("User info updated!");
-          reset();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Signed up successfully!",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+          };
+          // create user entry in db
+          axiosPublic.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              reset();
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Signed up successfully!",
+                showConfirmButton: false,
+                timer: 1500,
+              });
 
-          navigate("/");
+              navigate("/");
+            }
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -121,6 +132,11 @@ export default function SignUp() {
                 />
               </fieldset>
             </form>
+
+            <div className="px-4">
+              <div className="divider">Or</div>
+              <SocialLogin />
+            </div>
             <p className="p-5 text-sm">
               Already registered?{" "}
               <Link to="/login" className="text-orange-400 font-bold">

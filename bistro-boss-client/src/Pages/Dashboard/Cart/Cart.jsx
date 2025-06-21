@@ -3,12 +3,12 @@ import useCarts from "@/Hooks/useCarts";
 import Swal from "sweetalert2";
 
 import { FaMoneyBill, FaTrash } from "react-icons/fa";
-import useAxios from "../../../Hooks/useAxios";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 export default function Cart() {
   const [cart, refetch] = useCarts();
   const totalPrice = cart.reduce((totat, item) => totat + item.price, 0);
 
-  const axiosSecure = useAxios();
+  const axiosSecure = useAxiosSecure();
 
   const handleDelete = (id) => {
     Swal.fire({

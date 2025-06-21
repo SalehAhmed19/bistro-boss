@@ -1,63 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+// import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import Swal from "sweetalert2";
-import {
-  loadCaptchaEnginge,
-  LoadCanvasTemplate,
-  LoadCanvasTemplateNoReload,
-  validateCaptcha,
-} from "react-simple-captcha";
-import { AuthContext } from "@/Providers/AuthContext";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link } from "react-router";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
+// import Swal from "sweetalert2";
+// import {
+//   loadCaptchaEnginge,
+//   LoadCanvasTemplate,
+//   LoadCanvasTemplateNoReload,
+//   validateCaptcha,
+// } from "react-simple-captcha";
+// import { AuthContext } from "@/Providers/AuthContext";
+// import { Link, useLocation, useNavigate } from "react-router";
 
 export default function Login() {
-  const [disable, setDisable] = useState(true);
-  const [validate, setValidate] = useState(false);
-
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const from = location.state?.from?.pathname || "/";
-
-  const { signIn } = useContext(AuthContext);
-  useEffect(() => {
-    loadCaptchaEnginge(6);
-  }, []);
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
-
-    console.log({ email }, { password });
-    signIn(email, password).then((result) => {
-      const user = result.user;
-      console.log(user);
-
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Successfully Logged In!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-
-      navigate(from, { replace: true });
-    });
-  };
-
-  const handleValidateCaptcha = (e) => {
-    const user_captcha_value = e.target.value;
-    if (validateCaptcha(user_captcha_value)) {
-      setDisable(false);
-      setValidate(true);
-    } else {
-      setDisable(true);
-      setValidate(false);
-    }
-  };
-
   return (
     <>
       <Helmet>
@@ -73,53 +28,37 @@ export default function Login() {
               et a id nisi.
             </p>
           </div>
-          <div className="card md:w-1/2 bg-base-100 w-full max-w-sm shadow-2xl">
-            <form className="card-body" onSubmit={handleLogin}>
-              <fieldset className="fieldset">
-                <label className="label">Email</label>
-                <input
-                  type="email"
-                  className="input w-full"
-                  placeholder="Email"
-                  name="email"
-                />
-                <label className="label">Password</label>
-                <input
-                  type="password"
-                  className="input w-full"
-                  placeholder="Password"
-                  name="password"
-                />
-                <div>
-                  <a className="link link-hover">Forgot password?</a>
-                </div>
-
-                <label className="label">
-                  <LoadCanvasTemplate />
-                </label>
-                <input
-                  onBlur={handleValidateCaptcha}
-                  type="text"
-                  className="input w-full"
-                  placeholder="Enter captcha"
-                  name="captcha"
-                />
-                <p
-                  className={`btn btn-xs ${
-                    validate ? "btn-success" : "btn-neutral"
-                  } btn-dash`}
+          <div className="card md:w-1/2 bg-base-100 w-full max-w-sm pl-4 pr-4 pb-4 pt-10">
+            {/* Email */}
+            <Link to="/login-email">
+              <button className="btn bg-white text-black border-[#e5e5e5] w-full">
+                <svg
+                  aria-label="Email icon"
+                  width="16"
+                  height="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
                 >
-                  Validate Captcha
-                </p>
-                <input
-                  disabled={disable}
-                  className="btn btn-neutral mt-4"
-                  type="submit"
-                  value="Login"
-                />
-              </fieldset>
-            </form>
-            <p className="p-5 text-sm">
+                  <g
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    strokeWidth="2"
+                    fill="none"
+                    stroke="black"
+                  >
+                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </g>
+                </svg>
+                Login with Email
+              </button>
+            </Link>
+
+            <div className="divider">OR</div>
+
+            {/* Google */}
+            <SocialLogin />
+            <p className="p-5 text-sm text-center">
               New here?{" "}
               <Link to="/signup" className="text-orange-400 font-bold">
                 Register

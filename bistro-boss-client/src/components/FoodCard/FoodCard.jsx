@@ -3,7 +3,7 @@ import { FaShoppingCart } from "react-icons/fa";
 
 import useAuth from "@/Hooks/useAuth";
 import Swal from "sweetalert2";
-import useAxios from "@/Hooks/useAxios";
+import useAxiosSecure from "@/Hooks/useAxiosSecure";
 import useCarts from "@/Hooks/useCarts";
 
 export default function FoodCard({ item }) {
@@ -13,7 +13,7 @@ export default function FoodCard({ item }) {
 
   const [, refetch] = useCarts();
 
-  const axiosSecure = useAxios();
+  const axiosSecure = useAxiosSecure();
 
   const { _id, name, image, price, recipe } = item;
   const handleAddToCart = () => {

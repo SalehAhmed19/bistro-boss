@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxios from "./useAxios";
+import useAxiosSecure from "./useAxiosSecure";
 import useAuth from "./useAuth";
 
 // api, axios, axiosSecure, tanstack
 
 export default function useCarts() {
-  const axiosSecure = useAxios();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
   const { refetch, data: carts = [] } = useQuery({

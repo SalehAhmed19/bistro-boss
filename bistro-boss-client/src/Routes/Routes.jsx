@@ -6,9 +6,9 @@ import Order from "../Pages/Order/Order/Order";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import PrivateRoute from "./PrivateRoute";
-import Secret from "../Pages/Shared/Secret";
 import Dashboard from "../Layout/Dashboard";
 import Cart from "../Pages/Dashboard/Cart/Cart";
+import LoginEmail from "../Pages/Login/LoginEmail";
 
 export const router = createBrowserRouter([
   {
@@ -32,22 +32,22 @@ export const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/signup",
-        element: <SignUp />,
+        path: "/login-email",
+        element: <LoginEmail />,
       },
       {
-        path: "/secret",
-        element: (
-          <PrivateRoute>
-            <Secret />
-          </PrivateRoute>
-        ),
+        path: "/signup",
+        element: <SignUp />,
       },
     ],
   },
   {
     path: "dashboard", // Corrected typo
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
     children: [{ path: "cart", element: <Cart /> }], // Changed to relative path
   },
 ]);
