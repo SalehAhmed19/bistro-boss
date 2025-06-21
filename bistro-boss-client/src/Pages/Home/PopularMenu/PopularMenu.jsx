@@ -1,6 +1,6 @@
-import SectionTitle from "../../../components/SectionTitle/SectionTitle";
-import MenuItem from "../../../components/MenuItem/MenuItem";
-import { useMenu } from "../../../Hooks/useMenu";
+import SectionTitle from "@/components/SectionTitle/SectionTitle";
+import MenuItem from "@/components/MenuItem/MenuItem";
+import { useMenu } from "@/Hooks/useMenu";
 
 export default function PopularMenu() {
   const [menus] = useMenu();

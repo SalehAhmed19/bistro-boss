@@ -1,10 +1,10 @@
 import { useLocation, useNavigate } from "react-router";
 import { FaShoppingCart } from "react-icons/fa";
 
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "@/Hooks/useAuth";
 import Swal from "sweetalert2";
-import useAxios from "../../Hooks/useAxios";
-import useCarts from "../../Hooks/useCarts";
+import useAxios from "@/Hooks/useAxios";
+import useCarts from "@/Hooks/useCarts";
 
 export default function FoodCard({ item }) {
   const { user } = useAuth();

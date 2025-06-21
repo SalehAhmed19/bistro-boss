@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import SectionTitle from "../../../components/SectionTitle/SectionTitle";
-import quote from "../../../assets/icon/quote.svg";
+import SectionTitle from "@/components/SectionTitle/SectionTitle";
+import quote from "@/assets/icon/quote.svg";
 
 import { Rating } from "@smastrom/react-rating";
 

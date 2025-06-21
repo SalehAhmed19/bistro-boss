@@ -1,4 +1,4 @@
-import FoodCard from "../../../components/FoodCard/FoodCard";
+import FoodCard from "@/components/FoodCard/FoodCard";
 
 export default function OrderTab({ items }) {
   return (

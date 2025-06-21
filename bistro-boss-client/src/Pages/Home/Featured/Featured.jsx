@@ -1,5 +1,5 @@
-import SectionTitle from "../../../components/SectionTitle/SectionTitle";
-import featured from "../../../assets/home/featured.jpg";
+import SectionTitle from "@/components/SectionTitle/SectionTitle";
+import featured from "@/assets/home/featured.jpg";
 import "./style.css";
 
 export default function Featured() {

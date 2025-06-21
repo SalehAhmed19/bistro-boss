@@ -7,7 +7,7 @@ import {
   LoadCanvasTemplateNoReload,
   validateCaptcha,
 } from "react-simple-captcha";
-import { AuthContext } from "../../Providers/AuthContext";
+import { AuthContext } from "@/Providers/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router";
 
 export default function Login() {

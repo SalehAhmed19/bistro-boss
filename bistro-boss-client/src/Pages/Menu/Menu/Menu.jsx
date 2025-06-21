@@ -1,12 +1,12 @@
 import { Helmet } from "react-helmet-async";
-import SectionCover from "../../../components/SectionCover/SectionCover";
-import coverImg from "../../../assets/menu/menu-bg.jpg";
-import dessertBg from "../../../assets/menu/dessert-bg.jpeg";
-import pizzaBg from "../../../assets/menu/pizza-bg.jpg";
-import saladBg from "../../../assets/menu/salad-bg.jpg";
-import soupBg from "../../../assets/menu/soup-bg.jpg";
-import { useMenu } from "../../../Hooks/useMenu";
-import SectionTitle from "../../../components/SectionTitle/SectionTitle";
+import SectionCover from "@/components/SectionCover/SectionCover";
+import coverImg from "@/assets/menu/menu-bg.jpg";
+import dessertBg from "@/assets/menu/dessert-bg.jpeg";
+import pizzaBg from "@/assets/menu/pizza-bg.jpg";
+import saladBg from "@/assets/menu/salad-bg.jpg";
+import soupBg from "@/assets/menu/soup-bg.jpg";
+import { useMenu } from "@/Hooks/useMenu";
+import SectionTitle from "@/components/SectionTitle/SectionTitle";
 import MenuCategory from "../MenuCategory/MenuCategory";
 
 export default function Menu() {

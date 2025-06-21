@@ -1,9 +1,9 @@
-import SectionCover from "../../../components/SectionCover/SectionCover";
-import orderCover from "../../../assets/shop/banner2.jpg";
+import SectionCover from "@/components/SectionCover/SectionCover";
+import orderCover from "@/assets/shop/banner2.jpg";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { useState } from "react";
-import { useMenu } from "../../../Hooks/useMenu";
+import { useMenu } from "@/Hooks/useMenu";
 import OrderTab from "../OrderTab/OrderTab";
 import { useParams } from "react-router";
 import { Helmet } from "react-helmet-async";
