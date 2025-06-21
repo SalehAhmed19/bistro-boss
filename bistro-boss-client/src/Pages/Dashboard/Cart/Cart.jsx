@@ -1,10 +1,40 @@
 import SectionTitle from "@/components/SectionTitle/SectionTitle";
 import useCarts from "@/Hooks/useCarts";
+import Swal from "sweetalert2";
 
 import { FaMoneyBill, FaTrash } from "react-icons/fa";
+import useAxios from "../../../Hooks/useAxios";
 export default function Cart() {
-  const [cart] = useCarts();
+  const [cart, refetch] = useCarts();
   const totalPrice = cart.reduce((totat, item) => totat + item.price, 0);
+
+  const axiosSecure = useAxios();
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/carts/${id}`).then((res) => {
+          if (res) {
+            console.log(res);
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
   return (
     <div>
       <SectionTitle title={"Wanna add more?"} subtitle={"My Cart"} />
@@ -16,8 +46,8 @@ export default function Cart() {
           <h2 className="text-2xl font-bold uppercase">
             Total Orders: {totalPrice}
           </h2>
-          <button className="btn flex items-center">
-            Pay Now <FaMoneyBill />{" "}
+          <button className="btn flex">
+            Pay Now <FaMoneyBill className="text-orange-400" />
           </button>
         </div>
         <div>
@@ -63,7 +93,10 @@ export default function Cart() {
                     </td>
                     <td>$ {item.price}</td>
                     <th>
-                      <button className="btn btn-ghost btn-xs">
+                      <button
+                        onClick={() => handleDelete(item._id)}
+                        className="btn btn-ghost"
+                      >
                         <FaTrash className="text-red-500" />
                       </button>
                     </th>
