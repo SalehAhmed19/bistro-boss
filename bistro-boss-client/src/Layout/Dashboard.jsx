@@ -7,18 +7,22 @@ import {
   FaSearch,
   FaShoppingCart,
 } from "react-icons/fa";
+import useCarts from "../Hooks/useCarts";
 
 export default function Dashboard() {
+  const [cart] = useCarts();
   return (
     <div className="flex">
       {/* Dashboard sidebar */}
       <div className="w-[280px] min-h-screen bg-orange-400 p-5">
         <h2 className="text-2xl font-bold uppercase">Bistro Boss</h2>
         <h3 className="text-xl uppercase">Restasurant</h3>
+        <div className="divider"></div>
         <ul>
           <li className="text-white py-2">
             <NavLink className="flex items-center gap-2" to="/dashboard/cart">
               <FaShoppingCart /> My Cart
+              <span className="font-bold badge badge-dash">{cart.length}</span>
             </NavLink>
           </li>
 

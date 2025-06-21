@@ -22,7 +22,7 @@ export default function Cart() {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/carts/${id}`).then((res) => {
-          if (res) {
+          if (res.data.deletedCount > 0) {
             console.log(res);
             refetch();
             Swal.fire({
