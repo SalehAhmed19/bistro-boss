@@ -75,6 +75,11 @@ async function run() {
     const usersCollection = client.db("bistroDb").collection("usersCollection");
     app.post("/users", async (req, res) => {
       const user = req.body;
+      // insert email if user does not exists:
+      // 1. email unique, 2. upsert, 3. simple checking
+      const query = { email: user.email };
+      const existingUser = await usersCollection.findOne(query);
+      if (existingUser) return; // user exists, do nothing
       const result = await usersCollection.insertOne(user);
 
       res.send(result);
