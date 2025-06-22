@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
-  LoadCanvasTemplateNoReload,
   validateCaptcha,
 } from "react-simple-captcha";
 import { AuthContext } from "@/Providers/AuthContext";
@@ -30,6 +29,8 @@ export default function LoginEmail() {
     const email = form.email.value;
     const password = form.password.value;
 
+    console.log(from);
+
     console.log({ email }, { password });
     signIn(email, password).then((result) => {
       const user = result.user;
@@ -42,6 +43,8 @@ export default function LoginEmail() {
         showConfirmButton: false,
         timer: 1500,
       });
+
+      console.log(from);
 
       navigate(from, { replace: true });
     });
@@ -121,7 +124,10 @@ export default function LoginEmail() {
             </form>
             <p className="p-5 text-sm">
               New here?{" "}
-              <Link to="/signup" className="text-orange-400 font-bold">
+              <Link
+                to="/authorization/signup"
+                className="text-orange-400 font-bold"
+              >
                 Register
               </Link>
             </p>

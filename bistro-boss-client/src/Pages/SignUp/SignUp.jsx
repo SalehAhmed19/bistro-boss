@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
 import { AuthContext } from "@/Providers/AuthContext";
@@ -10,6 +10,8 @@ import SocialLogin from "../../components/SocialLogin/SocialLogin";
 export default function SignUp() {
   const axiosPublic = useAxiosPublic();
   const { createUser, updateUserProfile } = useContext(AuthContext);
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const navigate = useNavigate();
 
   const {
@@ -45,8 +47,7 @@ export default function SignUp() {
                 showConfirmButton: false,
                 timer: 1500,
               });
-
-              navigate("/");
+              navigate(from, { replace: true });
             }
           });
         })
@@ -142,7 +143,10 @@ export default function SignUp() {
             </div>
             <p className="p-5 text-sm">
               Already registered?{" "}
-              <Link to="/login" className="text-orange-400 font-bold">
+              <Link
+                to="/authorization/login-email"
+                className="text-orange-400 font-bold"
+              >
                 Login
               </Link>
             </p>

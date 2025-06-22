@@ -19,7 +19,7 @@ function AllUsers() {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/users/${user._d}`).then((res) => {
+        axiosSecure.delete(`/users/${user._id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             console.log(res);
             refetch();

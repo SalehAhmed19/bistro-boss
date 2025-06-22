@@ -17,6 +17,7 @@ import UserHome from "../Pages/Dashboard/UserHome/UserHome";
 import Reservation from "../Pages/Dashboard/Reservation/Reservation";
 import Reviews from "../Pages/Dashboard/Reviews/Reviews";
 import Orders from "../Pages/Dashboard/MyOrders/Orders";
+import LoginLayout from "../Layout/LoginLayout";
 
 export const router = createBrowserRouter([
   {
@@ -36,16 +37,18 @@ export const router = createBrowserRouter([
         element: <Order />,
       },
       {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/login-email",
-        element: <LoginEmail />,
-      },
-      {
-        path: "/signup",
-        element: <SignUp />,
+        path: "authorization",
+        element: <LoginLayout />,
+        children: [
+          {
+            path: "login-email",
+            element: <LoginEmail />,
+          },
+          {
+            path: "signup",
+            element: <SignUp />,
+          },
+        ],
       },
     ],
   },

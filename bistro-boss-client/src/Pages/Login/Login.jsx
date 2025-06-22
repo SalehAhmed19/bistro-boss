@@ -30,7 +30,7 @@ export default function Login() {
           </div>
           <div className="card md:w-1/2 bg-base-100 w-full max-w-sm pl-4 pr-4 pb-4 pt-10">
             {/* Email */}
-            <Link to="/login-email">
+            <Link to="/authorization/login-email">
               <button className="btn bg-white text-black border-[#e5e5e5] w-full">
                 <svg
                   aria-label="Email icon"
@@ -60,7 +60,10 @@ export default function Login() {
             <SocialLogin />
             <p className="p-5 text-sm text-center">
               New here?{" "}
-              <Link to="/signup" className="text-orange-400 font-bold">
+              <Link
+                to="/authorization/signup"
+                className="text-orange-400 font-bold"
+              >
                 Register
               </Link>
             </p>

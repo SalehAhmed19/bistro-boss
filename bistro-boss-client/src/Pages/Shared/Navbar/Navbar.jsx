@@ -87,7 +87,7 @@ export default function Navbar() {
         </div>
       ) : (
         <div className="navbar-end">
-          <Link to="/login">
+          <Link to="/authorization/login-email">
             <button className="btn">Login</button>
           </Link>
         </div>
