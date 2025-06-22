@@ -30,6 +30,7 @@ export default function SignUp() {
           const userInfo = {
             name: data.name,
             email: data.email,
+            photoURL: data.photoUrl,
           };
           // create user entry in db
           axiosPublic.post("/users", userInfo).then((res) => {

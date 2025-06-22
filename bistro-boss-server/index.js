@@ -75,6 +75,7 @@ async function run() {
     const usersCollection = client.db("bistroDb").collection("usersCollection");
     app.post("/users", async (req, res) => {
       const user = req.body;
+      // console.log(req.body);
       // insert email if user does not exists:
       // 1. email unique, 2. upsert, 3. simple checking
       const query = { email: user.email };
@@ -83,6 +84,12 @@ async function run() {
       const result = await usersCollection.insertOne(user);
 
       res.send(result);
+    });
+
+    app.get("/users", async (req, res) => {
+      const users = await usersCollection.find().toArray();
+
+      res.send(users); // return all users
     });
 
     // Send a ping to confirm a successful connection

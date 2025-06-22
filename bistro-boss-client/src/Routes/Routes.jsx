@@ -9,6 +9,14 @@ import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Layout/Dashboard";
 import Cart from "../Pages/Dashboard/Cart/Cart";
 import LoginEmail from "../Pages/Login/LoginEmail";
+import AddItems from "../Pages/Dashboard/AddItems/AddItems";
+import ManageItems from "../Pages/Dashboard/ManageItems/ManageItems";
+import ManageBookings from "../Pages/Dashboard/ManageBookings/ManageBookings";
+import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
+import UserHome from "../Pages/Dashboard/UserHome/UserHome";
+import Reservation from "../Pages/Dashboard/Reservation/Reservation";
+import Reviews from "../Pages/Dashboard/Reviews/Reviews";
+import Orders from "../Pages/Dashboard/MyOrders/Orders";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +56,16 @@ export const router = createBrowserRouter([
         <Dashboard />
       </PrivateRoute>
     ),
-    children: [{ path: "cart", element: <Cart /> }], // Changed to relative path
+    children: [
+      { path: "user-home", element: <UserHome /> },
+      { path: "cart", element: <Cart /> },
+      { path: "reservation", element: <Reservation /> },
+      { path: "reviews", element: <Reviews /> },
+      { path: "orders", element: <Orders /> },
+      { path: "add-items", element: <AddItems /> },
+      { path: "manage-items", element: <ManageItems /> },
+      { path: "manage-bookings", element: <ManageBookings /> },
+      { path: "all-users", element: <AllUsers /> },
+    ], // Changed to relative path
   },
 ]);

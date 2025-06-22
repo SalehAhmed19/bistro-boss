@@ -14,6 +14,7 @@ export default function SocialLogin() {
       const userInfo = {
         name: res.user?.displayName,
         email: res.user?.email,
+        photoURL: res.user?.photoURL,
       };
       axiosPublic.post("/users", userInfo).then((res) => {
         console.log(res);
