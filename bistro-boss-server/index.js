@@ -119,7 +119,7 @@ async function run() {
     });
 
     app.get("/users", verifyToken, async (req, res) => {
-      console.log(req.headers);
+      // console.log(req.headers);
       const users = await usersCollection.find().toArray();
 
       res.send(users); // return all users
