@@ -41,20 +41,33 @@ async function run() {
     const verifyToken = (req, res, next) => {
       console.log({ insideVerifyToken: req.headers.authorization });
       if (!req.headers.authorization) {
-        return res.status(401).send({ message: "Access Forbidden!" });
+        return res.status(401).send({ message: "Unauthorized Access :(" });
       }
       const token = req.headers.authorization.split(" ")[1];
       if (!token) {
-        return res.status(401).send({ message: "Access Forbidden!" });
+        return res.status(401).send({ message: "Unauthorized Access :(" });
       }
       jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
         if (err) {
-          return res.status(401).send({ message: "Access Forbidden!" });
+          return res.status(401).send({ message: "Unauthorized Access :(" });
         } else {
           req.decoded = decoded;
           next();
         }
       });
+    };
+
+    // user verfyAdmin after verifyToken
+    const verifyAdmin = async (req, res, next) => {
+      const email = req.decoded.email;
+      const query = { email: email };
+      const user = await usersCollection.findOne(query);
+      const isAdmin = user?.role === "admin";
+
+      if (!isAdmin) {
+        return res.status(403).send({ message: "Access Forbidden :(" });
+      }
+      next();
     };
 
     // menu collection
@@ -118,14 +131,14 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/api/users", verifyToken, async (req, res) => {
+    app.get("/api/users", verifyToken, verifyAdmin, async (req, res) => {
       // console.log(req.headers);
       const users = await usersCollection.find().toArray();
 
       res.send(users); // return all users
     });
 
-    app.delete("/api/users/:id", async (req, res) => {
+    app.delete("/api/users/:id", verifyToken, verifyAdmin, async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await usersCollection.deleteOne(query);
@@ -133,18 +146,23 @@ async function run() {
       res.send(result);
     });
 
-    app.patch("/api/users/admin/:id", async (req, res) => {
-      const id = req.params.id;
-      const filter = { _id: new ObjectId(id) };
-      const updatedDoc = {
-        $set: {
-          role: "admin",
-        },
-      };
-      const result = await usersCollection.updateOne(filter, updatedDoc);
+    app.patch(
+      "/api/users/admin/:id",
+      verifyToken,
+      verifyAdmin,
+      async (req, res) => {
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        const updatedDoc = {
+          $set: {
+            role: "admin",
+          },
+        };
+        const result = await usersCollection.updateOne(filter, updatedDoc);
 
-      res.send(result);
-    });
+        res.send(result);
+      }
+    );
 
     app.get(
       "/api/users/authorization/admin/:email",
@@ -153,7 +171,7 @@ async function run() {
         const email = req.params.email;
         if (email !== req.decoded.email) {
           return res.status(403).send({
-            message: "You are not authorized to access this resource.",
+            message: "Access Forbidden :(",
           });
         }
         const query = { email: email };
