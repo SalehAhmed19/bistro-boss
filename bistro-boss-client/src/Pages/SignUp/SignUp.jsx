@@ -32,6 +32,8 @@ export default function SignUp() {
             email: data.email,
             photoURL: data.photoUrl,
           };
+
+          console.log(data);
           // create user entry in db
           axiosPublic.post("/users", userInfo).then((res) => {
             if (res.data.insertedId) {

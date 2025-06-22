@@ -27,7 +27,7 @@ export default function Cart() {
             refetch();
             Swal.fire({
               title: "Deleted!",
-              text: "Your file has been deleted.",
+              text: "Cart item has been deleted.",
               icon: "success",
             });
           }
