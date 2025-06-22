@@ -37,6 +37,26 @@ async function run() {
       res.send({ token });
     });
 
+    // jwt middleware
+    const verifyToken = (req, res, next) => {
+      console.log({ insideVerifyToken: req.headers.authorization });
+      if (!req.headers.authorization) {
+        return res.status(401).send("Access Forbidden!");
+      }
+      const token = req.headers.authorization.split(" ")[1];
+      if (!token) {
+        return res.status(401).send("Access Forbidden!");
+      }
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+          return res.status(401).send("Access Forbidden");
+        } else {
+          req.decoded = decoded;
+          next();
+        }
+      });
+    };
+
     // menu collection
     const menuCollection = client.db("bistroDb").collection("menuCollection");
 
@@ -98,7 +118,8 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/users", async (req, res) => {
+    app.get("/users", verifyToken, async (req, res) => {
+      console.log(req.headers);
       const users = await usersCollection.find().toArray();
 
       res.send(users); // return all users
