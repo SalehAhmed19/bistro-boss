@@ -27,7 +27,7 @@ async function run() {
     await client.connect();
 
     // jwt api's
-    app.post("/api/jwt", (req, res) => {
+    app.post("/api/authorization/jwt", (req, res) => {
       const user = req.body;
       const payload = { email: user.email };
       const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
@@ -41,15 +41,15 @@ async function run() {
     const verifyToken = (req, res, next) => {
       console.log({ insideVerifyToken: req.headers.authorization });
       if (!req.headers.authorization) {
-        return res.status(401).send("Access Forbidden!");
+        return res.status(401).send({ message: "Access Forbidden!" });
       }
       const token = req.headers.authorization.split(" ")[1];
       if (!token) {
-        return res.status(401).send("Access Forbidden!");
+        return res.status(401).send({ message: "Access Forbidden!" });
       }
       jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
         if (err) {
-          return res.status(401).send("Access Forbidden");
+          return res.status(401).send({ message: "Access Forbidden!" });
         } else {
           req.decoded = decoded;
           next();
@@ -60,7 +60,7 @@ async function run() {
     // menu collection
     const menuCollection = client.db("bistroDb").collection("menuCollection");
 
-    app.get("/menus", async (req, res) => {
+    app.get("/api/menus", async (req, res) => {
       const result = await menuCollection.find().toArray();
 
       res.send(result);
@@ -71,7 +71,7 @@ async function run() {
       .db("bistroDb")
       .collection("reviewsCollection");
 
-    app.get("/reviews", async (req, res) => {
+    app.get("/api/reviews", async (req, res) => {
       const result = await reviewsCollection.find().toArray();
 
       res.send(result);
@@ -80,14 +80,14 @@ async function run() {
     // cart collection
     const cartsCollection = client.db("bistroDb").collection("cartsCollection");
 
-    app.post("/carts", async (req, res) => {
+    app.post("/api/carts", async (req, res) => {
       const cartItem = req.body;
       const result = await cartsCollection.insertOne(cartItem);
 
       res.send(result);
     });
 
-    app.get("/carts", async (req, res) => {
+    app.get("/api/carts", async (req, res) => {
       const email = req.query.email;
       const query = { email: email };
       const result = await cartsCollection.find(query).toArray();
@@ -95,7 +95,7 @@ async function run() {
       res.send(result);
     });
 
-    app.delete("/carts/:id", async (req, res) => {
+    app.delete("/api/carts/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await cartsCollection.deleteOne(query);
@@ -105,7 +105,7 @@ async function run() {
 
     // Users collection
     const usersCollection = client.db("bistroDb").collection("usersCollection");
-    app.post("/users", async (req, res) => {
+    app.post("/api/users", async (req, res) => {
       const user = req.body;
       // console.log(req.body);
       // insert email if user does not exists:
@@ -118,14 +118,14 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/users", verifyToken, async (req, res) => {
+    app.get("/api/users", verifyToken, async (req, res) => {
       // console.log(req.headers);
       const users = await usersCollection.find().toArray();
 
       res.send(users); // return all users
     });
 
-    app.delete("/users/:id", async (req, res) => {
+    app.delete("/api/users/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await usersCollection.deleteOne(query);
@@ -133,7 +133,7 @@ async function run() {
       res.send(result);
     });
 
-    app.patch("/users/admin/:id", async (req, res) => {
+    app.patch("/api/users/admin/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const updatedDoc = {
@@ -145,6 +145,27 @@ async function run() {
 
       res.send(result);
     });
+
+    app.get(
+      "/api/users/authorization/admin/:email",
+      verifyToken,
+      async (req, res) => {
+        const email = req.params.email;
+        if (email !== req.decoded.email) {
+          return res.status(403).send({
+            message: "You are not authorized to access this resource.",
+          });
+        }
+        const query = { email: email };
+        const user = await usersCollection.findOne(query);
+        let isAdmin = false;
+        if (user) {
+          isAdmin = user?.role === "admin";
+        }
+
+        res.send({ isAdmin });
+      }
+    );
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });

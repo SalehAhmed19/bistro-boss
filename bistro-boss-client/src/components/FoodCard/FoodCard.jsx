@@ -54,7 +54,9 @@ export default function FoodCard({ item }) {
       }).then((result) => {
         if (result.isConfirmed) {
           // send user to the login page
-          navigate("/login/login-email", { state: { from: location } });
+          navigate("/authentication/login-email", {
+            state: { from: location },
+          });
         }
       });
     }

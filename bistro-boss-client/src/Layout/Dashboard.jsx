@@ -14,11 +14,12 @@ import {
 } from "react-icons/fa";
 import { MdAdminPanelSettings } from "react-icons/md";
 import useCarts from "../Hooks/useCarts";
+import useAdmin from "../Hooks/useAdmin";
 
 export default function Dashboard() {
   const [cart] = useCarts();
   // TODO: get isAdmin value form the db
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
 
   const userMenu = (
     <>

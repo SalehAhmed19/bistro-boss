@@ -16,7 +16,7 @@ export default function PrivateRoute({ children }) {
 
   return (
     <Navigate
-      to="/authorization/login-email"
+      to="/authentication/login-email"
       state={{ from: location }}
       replace
     />

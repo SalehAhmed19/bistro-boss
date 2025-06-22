@@ -4,9 +4,12 @@ import { AuthContext } from "@/Providers/AuthContext";
 
 import { FaShoppingCart } from "react-icons/fa";
 import useCarts from "@/Hooks/useCarts";
+import useAdmin from "../../../Hooks/useAdmin";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 export default function Navbar() {
   const { user, logOut } = useContext(AuthContext);
+  const [isAdmin] = useAdmin();
 
   const [carts] = useCarts();
 
@@ -17,7 +20,7 @@ export default function Navbar() {
         console.log(error);
       });
   };
-  const navOptions = (
+  const navOptionsUser = (
     <>
       <li>
         <Link to="/">Home</Link>
@@ -35,6 +38,20 @@ export default function Navbar() {
             <div className="badge badge-sm badge-warning">+{carts.length}</div>
           </>
         </Link>
+      </li>
+    </>
+  );
+
+  const navOptionsAdmin = (
+    <>
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/menu">Our Menu</Link>
+      </li>
+      <li>
+        <Link to="/order/salad">Order</Link>
       </li>
     </>
   );
@@ -65,13 +82,15 @@ export default function Navbar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
-            {navOptions}
+            {isAdmin ? navOptionsAdmin : navOptionsUser}
           </ul>
         </div>
         <a className="btn btn-ghost text-xl">Distro Boss</a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{navOptions}</ul>
+        <ul className="menu menu-horizontal px-1">
+          {isAdmin ? navOptionsAdmin : navOptionsUser}
+        </ul>
       </div>
       {user ? (
         <div className="navbar-end">
@@ -87,10 +106,15 @@ export default function Navbar() {
         </div>
       ) : (
         <div className="navbar-end">
-          <Link to="/authorization/login-email">
+          <Link to="/authentication/login-email">
             <button className="btn">Login</button>
           </Link>
         </div>
+      )}
+      {isAdmin && (
+        <Link to="dashboard/admin-home" className="btn ml-2 text-orange-400">
+          Admin Dashboard <MdAdminPanelSettings className="text-2xl" />
+        </Link>
       )}
     </div>
   );

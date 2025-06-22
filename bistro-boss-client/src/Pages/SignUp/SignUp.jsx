@@ -144,7 +144,7 @@ export default function SignUp() {
             <p className="p-5 text-sm">
               Already registered?{" "}
               <Link
-                to="/authorization/login-email"
+                to="/authentication/login-email"
                 className="text-orange-400 font-bold"
               >
                 Login

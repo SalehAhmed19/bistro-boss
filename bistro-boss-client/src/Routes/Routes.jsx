@@ -3,7 +3,6 @@ import Main from "../Layout/Main";
 import Home from "../Pages/Home/Home/Home";
 import Menu from "../Pages/Menu/Menu/Menu";
 import Order from "../Pages/Order/Order/Order";
-import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Layout/Dashboard";
@@ -13,8 +12,9 @@ import AddItems from "../Pages/Dashboard/AddItems/AddItems";
 import ManageItems from "../Pages/Dashboard/ManageItems/ManageItems";
 import ManageBookings from "../Pages/Dashboard/ManageBookings/ManageBookings";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
-import UserHome from "../Pages/Dashboard/UserHome/UserHome";
 import Reservation from "../Pages/Dashboard/Reservation/Reservation";
+import UserHome from "../Pages/Dashboard/UserHome/UserHome";
+import AdminHome from "../Pages/Dashboard/AdminHome/AdminHome";
 import Reviews from "../Pages/Dashboard/Reviews/Reviews";
 import Orders from "../Pages/Dashboard/MyOrders/Orders";
 import LoginLayout from "../Layout/LoginLayout";
@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
         element: <Order />,
       },
       {
-        path: "authorization",
+        path: "authentication",
         element: <LoginLayout />,
         children: [
           {
@@ -65,6 +65,7 @@ export const router = createBrowserRouter([
       { path: "reservation", element: <Reservation /> },
       { path: "reviews", element: <Reviews /> },
       { path: "orders", element: <Orders /> },
+      { path: "admin-home", element: <AdminHome /> },
       { path: "add-items", element: <AddItems /> },
       { path: "manage-items", element: <ManageItems /> },
       { path: "manage-bookings", element: <ManageBookings /> },

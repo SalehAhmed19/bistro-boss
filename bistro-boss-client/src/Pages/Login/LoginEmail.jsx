@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 import {
@@ -76,7 +77,7 @@ export default function LoginEmail() {
               et a id nisi.
             </p>
           </div>
-          <div className="card md:w-1/2 bg-base-100 w-full max-w-sm shadow-2xl">
+          <div className="card md:w-1/2 bg-base-100 w-full max-w-sm shadow-2xl p-5">
             <form className="card-body" onSubmit={handleLogin}>
               <fieldset className="fieldset">
                 <label className="label">Email</label>
@@ -125,12 +126,13 @@ export default function LoginEmail() {
             <p className="p-5 text-sm">
               New here?{" "}
               <Link
-                to="/authorization/signup"
+                to="/authentication/signup"
                 className="text-orange-400 font-bold"
               >
                 Register
               </Link>
             </p>
+            <SocialLogin />
           </div>
         </div>
       </div>
