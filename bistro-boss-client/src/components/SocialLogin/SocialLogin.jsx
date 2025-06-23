@@ -19,7 +19,10 @@ export default function SocialLogin() {
       axiosPublic.post("/users", userInfo).then((res) => {
         console.log(res);
       });
-      navigate(from, { replace: true });
+      console.log(res);
+      if (res.user) {
+        navigate(from, { replace: true });
+      }
     });
   };
   return (
