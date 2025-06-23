@@ -92,6 +92,12 @@ export default function Navbar() {
           {isAdmin ? navOptionsAdmin : navOptionsUser}
         </ul>
       </div>
+
+      {isAdmin && (
+        <Link to="dashboard/admin-home" className="btn ml-2 text-[#D1A054]">
+          Admin Dashboard <MdAdminPanelSettings className="text-2xl" />
+        </Link>
+      )}
       {user ? (
         <div className="navbar-end">
           <div className="avatar mr-4">
@@ -110,11 +116,6 @@ export default function Navbar() {
             <button className="btn">Login</button>
           </Link>
         </div>
-      )}
-      {isAdmin && (
-        <Link to="dashboard/admin-home" className="btn ml-2 text-[#D1A054]">
-          Admin Dashboard <MdAdminPanelSettings className="text-2xl" />
-        </Link>
       )}
     </div>
   );

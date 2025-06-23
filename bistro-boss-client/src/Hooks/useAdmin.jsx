@@ -3,7 +3,7 @@ import useAuth from "./useAuth";
 import useAxiosSecure from "./useAxiosSecure";
 
 export default function useAdmin() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const { data: isAdmin, isPending: isAdminLoading } = useQuery({
@@ -15,6 +15,7 @@ export default function useAdmin() {
 
       return res.data.isAdmin;
     },
+    enabled: !loading && !!user?.email, // Only run query if auth is not loading and user email exists
   });
 
   return [isAdmin, isAdminLoading];
