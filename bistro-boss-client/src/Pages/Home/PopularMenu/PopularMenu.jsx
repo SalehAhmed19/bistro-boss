@@ -1,6 +1,7 @@
 import SectionTitle from "@/components/SectionTitle/SectionTitle";
 import MenuItem from "@/components/MenuItem/MenuItem";
 import useMenu from "../../../Hooks/useMenu";
+import { Link } from "react-router";
 
 export default function PopularMenu() {
   const [, menus] = useMenu();
@@ -15,9 +16,11 @@ export default function PopularMenu() {
         ))}
       </div>
 
-      <button className="btn btn-outline mt-5 uppercase border-0 border-b-4 block mx-auto mb-10">
-        View Full Menu
-      </button>
+      <Link to="/menu">
+        <button className="btn btn-outline mt-5 uppercase border-0 border-b-4 block mx-auto mb-10">
+          View Full Menu
+        </button>
+      </Link>
     </section>
   );
 }
