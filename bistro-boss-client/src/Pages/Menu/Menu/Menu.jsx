@@ -5,12 +5,13 @@ import dessertBg from "@/assets/menu/dessert-bg.jpeg";
 import pizzaBg from "@/assets/menu/pizza-bg.jpg";
 import saladBg from "@/assets/menu/salad-bg.jpg";
 import soupBg from "@/assets/menu/soup-bg.jpg";
-import { useMenu } from "@/Hooks/useMenu";
+import useMenu from "../../../Hooks/useMenu";
 import SectionTitle from "@/components/SectionTitle/SectionTitle";
 import MenuCategory from "../MenuCategory/MenuCategory";
 
 export default function Menu() {
-  const [menus] = useMenu();
+  const [, menus] = useMenu();
+  console.log(menus);
   const deserts = menus.filter((menu) => menu.category === "dessert");
   const pizza = menus.filter((menu) => menu.category === "pizza");
   const soup = menus.filter((menu) => menu.category === "soup");

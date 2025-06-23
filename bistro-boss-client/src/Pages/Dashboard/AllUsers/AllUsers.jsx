@@ -104,15 +104,17 @@ function AllUsers() {
                     </td>
                     <td>
                       {user.role === "admin" ? (
-                        <div className="font-bold text-2xl inline-block p-2 rounded-full border border-orange-100 text-[#D1A054]">
-                          <MdAdminPanelSettings />
+                        <div className="text-[#D1A054] text-center flex items-center gap-2">
+                          <MdAdminPanelSettings className="text-2xl" />
+                          Admin
                         </div>
                       ) : (
                         <button
                           onClick={() => handleMakeAdmin(user)}
-                          className="font-bold text-2xl bg-amber-100 inline-block p-2 rounded-full text-[#D1A054] cursor-pointer"
+                          className="bg-[#D1A054] text-white text-center flex items-center gap-2 cursor-pointer p-2 rounded-sm"
                         >
-                          <FaUsers />
+                          <FaUsers className="text-2xl mx-auto" />
+                          User
                         </button>
                       )}
                     </td>

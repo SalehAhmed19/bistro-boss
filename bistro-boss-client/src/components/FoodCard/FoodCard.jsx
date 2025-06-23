@@ -5,8 +5,10 @@ import useAuth from "@/Hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxiosSecure from "@/Hooks/useAxiosSecure";
 import useCarts from "@/Hooks/useCarts";
+import useAdmin from "../../Hooks/useAdmin";
 
 export default function FoodCard({ item }) {
+  const [isAdmin] = useAdmin();
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -75,12 +77,14 @@ export default function FoodCard({ item }) {
         <p>{recipe}</p>
 
         <div className="card-actions">
-          <button
-            onClick={handleAddToCart}
-            className="btn btn-outline border-0 border-b-4 border-[#D1A054]"
-          >
-            Add to cart
-          </button>
+          {!isAdmin && (
+            <button
+              onClick={handleAddToCart}
+              className="btn btn-outline border-0 border-b-4 border-[#D1A054]"
+            >
+              Add to cart
+            </button>
+          )}
         </div>
       </div>
     </div>
