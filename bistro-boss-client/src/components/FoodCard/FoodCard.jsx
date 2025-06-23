@@ -67,7 +67,7 @@ export default function FoodCard({ item }) {
       <figure className="px-5 pt-5">
         <img src={image} alt="Shoes" className="rounded-xl" />
       </figure>
-      <p className="bg-black text-orange-400 absolute right-0 mr-2 mt-2 p-2 rounded-md">
+      <p className="bg-black text-[#D1A054] absolute right-0 mr-2 mt-2 p-2 rounded-md">
         $ {price}
       </p>
       <div className="card-body items-center text-center">
@@ -77,7 +77,7 @@ export default function FoodCard({ item }) {
         <div className="card-actions">
           <button
             onClick={handleAddToCart}
-            className="btn btn-outline border-0 border-b-4 border-orange-400"
+            className="btn btn-outline border-0 border-b-4 border-[#D1A054]"
           >
             Add to cart
           </button>

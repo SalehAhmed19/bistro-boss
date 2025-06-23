@@ -15,11 +15,5 @@ export default function AdminRoute({ children }) {
     return children;
   }
 
-  return (
-    <Navigate
-      to="/authentication/login-email"
-      state={{ from: location }}
-      replace
-    />
-  );
+  return <Navigate to="/" state={{ from: location }} replace />;
 }

@@ -103,7 +103,7 @@ export default function Dashboard() {
   return (
     <div className="flex">
       {/* Dashboard sidebar */}
-      <div className="w-[280px] min-h-screen bg-orange-400 p-5">
+      <div className="w-[280px] min-h-screen bg-[#D1A054] p-5">
         <h2 className="text-2xl font-bold uppercase">Bistro Boss</h2>
         <h3 className="text-xl uppercase">Restasurant</h3>
         <div className="divider"></div>

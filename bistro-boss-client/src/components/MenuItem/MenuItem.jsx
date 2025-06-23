@@ -12,7 +12,7 @@ export default function MenuItem({ menu }) {
         <h3 className="uppercase">{name} ------</h3>
         <p>{recipe}</p>
       </div>
-      <p className="text-orange-400">$ {price}</p>
+      <p className="text-[#D1A054]">$ {price}</p>
     </div>
   );
 }

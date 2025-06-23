@@ -18,6 +18,7 @@ import AdminHome from "../Pages/Dashboard/AdminHome/AdminHome";
 import Reviews from "../Pages/Dashboard/Reviews/Reviews";
 import Orders from "../Pages/Dashboard/MyOrders/Orders";
 import LoginLayout from "../Layout/LoginLayout";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -65,11 +66,46 @@ export const router = createBrowserRouter([
       { path: "reservation", element: <Reservation /> },
       { path: "reviews", element: <Reviews /> },
       { path: "orders", element: <Orders /> },
-      { path: "admin-home", element: <AdminHome /> },
-      { path: "add-items", element: <AddItems /> },
-      { path: "manage-items", element: <ManageItems /> },
-      { path: "manage-bookings", element: <ManageBookings /> },
-      { path: "all-users", element: <AllUsers /> },
+      {
+        path: "admin-home",
+        element: (
+          <AdminRoute>
+            <AdminHome />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "add-items",
+        element: (
+          <AdminRoute>
+            <AddItems />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "manage-items",
+        element: (
+          <AdminRoute>
+            <ManageItems />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "manage-bookings",
+        element: (
+          <AdminRoute>
+            <ManageBookings />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "all-users",
+        element: (
+          <AdminRoute>
+            <AllUsers />
+          </AdminRoute>
+        ),
+      },
     ], // Changed to relative path
   },
 ]);

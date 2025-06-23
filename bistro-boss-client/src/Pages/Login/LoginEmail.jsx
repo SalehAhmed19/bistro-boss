@@ -127,7 +127,7 @@ export default function LoginEmail() {
               New here?{" "}
               <Link
                 to="/authentication/signup"
-                className="text-orange-400 font-bold"
+                className="text-[#D1A054] font-bold"
               >
                 Register
               </Link>

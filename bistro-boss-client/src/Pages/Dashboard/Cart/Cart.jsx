@@ -47,7 +47,7 @@ export default function Cart() {
             Total Orders: {totalPrice}
           </h2>
           <button className="btn flex">
-            Pay Now <FaMoneyBill className="text-orange-400" />
+            Pay Now <FaMoneyBill className="text-[#D1A054]" />
           </button>
         </div>
         <div>

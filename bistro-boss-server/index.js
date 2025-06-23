@@ -79,6 +79,13 @@ async function run() {
       res.send(result);
     });
 
+    app.post("/api/upload/menu", verifyToken, verifyAdmin, async (req, res) => {
+      const menuItem = req.body;
+      const result = await menuCollection.insertOne(menuItem);
+
+      res.send(result);
+    });
+
     // review collection
     const reviewsCollection = client
       .db("bistroDb")

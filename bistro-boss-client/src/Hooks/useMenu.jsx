@@ -10,7 +10,7 @@ export function useMenu() {
         setMenus(data);
         setLoading(false);
       });
-  }, []);
+  }, [menus]);
 
   return [menus, loading];
 }

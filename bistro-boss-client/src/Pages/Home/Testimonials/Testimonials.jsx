@@ -39,7 +39,7 @@ export default function Testimonials() {
                 />
                 <img src={quote} alt="" />
                 <p>{review.details}</p>
-                <p className="text-orange-400 uppercase text-2xl">
+                <p className="text-[#D1A054] uppercase text-2xl">
                   {review.name}
                 </p>
               </div>

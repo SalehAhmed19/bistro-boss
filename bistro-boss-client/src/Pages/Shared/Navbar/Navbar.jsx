@@ -112,7 +112,7 @@ export default function Navbar() {
         </div>
       )}
       {isAdmin && (
-        <Link to="dashboard/admin-home" className="btn ml-2 text-orange-400">
+        <Link to="dashboard/admin-home" className="btn ml-2 text-[#D1A054]">
           Admin Dashboard <MdAdminPanelSettings className="text-2xl" />
         </Link>
       )}

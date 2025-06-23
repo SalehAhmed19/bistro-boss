@@ -145,7 +145,7 @@ export default function SignUp() {
               Already registered?{" "}
               <Link
                 to="/authentication/login-email"
-                className="text-orange-400 font-bold"
+                className="text-[#D1A054] font-bold"
               >
                 Login
               </Link>
