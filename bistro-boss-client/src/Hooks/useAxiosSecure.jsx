@@ -55,7 +55,7 @@ function useAxiosSecure() {
   // Create the axios instance INSIDE the hook
   // This ensures navigate and logOut are in scope when the interceptors are set up
   const axiosSecure = axios.create({
-    baseURL: "http://localhost:4000/api",
+    baseURL: `${import.meta.env.VITE_apiServerUrl}`,
   });
 
   // Use useEffect to add interceptors only once when the component mounts

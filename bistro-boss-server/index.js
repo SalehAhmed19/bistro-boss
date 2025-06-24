@@ -86,18 +86,74 @@ async function run() {
       res.send(result);
     });
 
+    // app.delete(
+    //   "/api/delete/menus/:id",
+    //   verifyToken,
+    //   verifyAdmin,
+    //   async (req, res) => {
+    //     const id = req.params.id;
+    //     console.log(id);
+    //     const query = { _id: new ObjectId(id) };
+    //     const query2 = { _id: id };
+    //     console.log(query);
+    //     const result = await menuCollection.deleteOne(query || query2);
+
+    //     res.send(result);
+    //   }
+    // );
+
+    // app.delete(
+    //   "/api/delete/menus/:id",
+    //   verifyToken,
+    //   verifyAdmin,
+    //   async (req, res) => {
+    //     const id = req.params.id;
+    //     console.log("ID from params:", id);
+    //     // Correct query for _id stored as String
+    //     const query = { _id: id }; // <-- REMOVE new ObjectId()
+    //     console.log("Query object (for string _id):", query);
+
+    //     const result = await menuCollection.deleteOne(query);
+    //     console.log("Delete result:", result);
+    //     res.send(result);
+    //   }
+    // );
+
+    const { ObjectId } = require("mongodb"); // Make sure you import ObjectId at the top of your file
+
     app.delete(
       "/api/delete/menus/:id",
       verifyToken,
       verifyAdmin,
       async (req, res) => {
         const id = req.params.id;
-        console.log(id);
-        const query = { _id: id };
-        console.log(query);
-        const result = await menuCollection.deleteOne(query);
+        console.log("Delete request for ID:", id);
 
-        res.send(result);
+        let query;
+        try {
+          // Attempt to create an ObjectId from the ID string
+          // This will throw an error if 'id' is not a valid 24-character hex string
+          query = { _id: new ObjectId(id) };
+          console.log("Attempting delete with ObjectId query:", query);
+        } catch (error) {
+          // If new ObjectId(id) fails, it means the ID is likely a plain string
+          console.warn(
+            `ID "${id}" is not a valid ObjectId format. Attempting delete with string ID.`
+          );
+          query = { _id: id }; // Use the ID as a plain string
+          console.log("Attempting delete with string ID query:", query);
+        }
+
+        try {
+          const result = await menuCollection.deleteOne(query);
+          console.log("Delete operation result:", result);
+          res.send(result);
+        } catch (dbError) {
+          console.error("Database error during deletion:", dbError);
+          res
+            .status(500)
+            .send({ message: "Internal server error during deletion." });
+        }
       }
     );
 
