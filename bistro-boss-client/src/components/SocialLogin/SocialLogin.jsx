@@ -9,8 +9,8 @@ export default function SocialLogin() {
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
 
-  const handleGoogleSignIn = async () => {
-    await googleSignIn().then((res) => {
+  const handleGoogleSignIn = () => {
+    googleSignIn().then((res) => {
       const userInfo = {
         name: res.user?.displayName,
         email: res.user?.email,
