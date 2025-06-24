@@ -86,6 +86,21 @@ async function run() {
       res.send(result);
     });
 
+    app.delete(
+      "/api/delete/menus/:id",
+      verifyToken,
+      verifyAdmin,
+      async (req, res) => {
+        const id = req.params.id;
+        console.log(id);
+        const query = { _id: id };
+        console.log(query);
+        const result = await menuCollection.deleteOne(query);
+
+        res.send(result);
+      }
+    );
+
     // review collection
     const reviewsCollection = client
       .db("bistroDb")
@@ -115,7 +130,7 @@ async function run() {
       res.send(result);
     });
 
-    app.delete("/api/carts/:id", async (req, res) => {
+    app.delete("/api/delet/carts/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await cartsCollection.deleteOne(query);
@@ -145,13 +160,18 @@ async function run() {
       res.send(users); // return all users
     });
 
-    app.delete("/api/users/:id", verifyToken, verifyAdmin, async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await usersCollection.deleteOne(query);
+    app.delete(
+      "/api/delete/users/:id",
+      verifyToken,
+      verifyAdmin,
+      async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await usersCollection.deleteOne(query);
 
-      res.send(result);
-    });
+        res.send(result);
+      }
+    );
 
     app.patch(
       "/api/users/admin/:id",

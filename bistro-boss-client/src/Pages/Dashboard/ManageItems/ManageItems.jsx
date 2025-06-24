@@ -1,15 +1,50 @@
 import { FaMoneyBill, FaRegEdit, FaTrash } from "react-icons/fa";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import useMenu from "../../../Hooks/useMenu";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 export default function ManageItems() {
   const [refetch, menus] = useMenu();
+  const axiosSecure = useAxiosSecure();
+
+  const handleDeleteMenu = (menu) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Want to delete this ${menu.name}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axiosSecure.delete(`/delete/menus/${menu._id}`);
+
+        console.log(res.data);
+
+        if (res.data.deletedCount > 0) {
+          console.log(res);
+          refetch();
+          Swal.fire({
+            title: "Deleted!",
+            text: `${menu.name} has been deleted.`,
+            icon: "success",
+          });
+        }
+        console.log(res);
+      }
+    });
+    console.log(menu._id);
+  };
   return (
     <div>
       <SectionTitle title={"Manage All Items"} subtitle={"Admin Panel"} />
       <div>
         <div className="flex items-center justify-between gap-5">
-          <h2 className="text-2xl font-bold uppercase">Total Item: 6</h2>
+          <h2 className="text-2xl font-bold uppercase">
+            Total Item: {menus.length}
+          </h2>
         </div>
         <div>
           <div className="overflow-x-auto">
@@ -20,14 +55,14 @@ export default function ManageItems() {
                   <th>Name</th>
                   <th>Category</th>
                   <th>Price</th>
-                  <th>Action</th>
+                  <th>Update</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 {/* row 1 */}
                 {menus.map((menu) => (
-                  <tr>
+                  <tr key={menu._id}>
                     <td>
                       <div className="flex items-center gap-3">
                         <div className="avatar">
@@ -58,7 +93,7 @@ export default function ManageItems() {
 
                     <th>
                       <button
-                        // onClick={() => handleDelete(item._id)}
+                        onClick={() => handleDeleteMenu(menu)}
                         className="btn btn-ghost"
                       >
                         <FaTrash className="text-red-500" />

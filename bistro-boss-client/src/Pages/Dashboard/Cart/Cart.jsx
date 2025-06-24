@@ -21,7 +21,7 @@ export default function Cart() {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/carts/${id}`).then((res) => {
+        axiosSecure.delete(`/delete/carts/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             console.log(res);
             refetch();
