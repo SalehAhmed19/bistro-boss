@@ -1,7 +1,7 @@
 import SectionTitle from "@/components/SectionTitle/SectionTitle";
 import MenuItem from "@/components/MenuItem/MenuItem";
 import useMenu from "../../../Hooks/useMenu";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function PopularMenu() {
   const [, menus] = useMenu();

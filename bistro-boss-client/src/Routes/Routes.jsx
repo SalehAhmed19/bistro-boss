@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
 import Home from "../Pages/Home/Home/Home";
 import Menu from "../Pages/Menu/Menu/Menu";
@@ -19,6 +19,7 @@ import Reviews from "../Pages/Dashboard/Reviews/Reviews";
 import Orders from "../Pages/Dashboard/MyOrders/Orders";
 import LoginLayout from "../Layout/LoginLayout";
 import AdminRoute from "./AdminRoute";
+import UpdateItem from "../Pages/Dashboard/UpdateItem/UpdateItem";
 
 export const router = createBrowserRouter([
   {
@@ -89,6 +90,16 @@ export const router = createBrowserRouter([
             <ManageItems />
           </AdminRoute>
         ),
+      },
+      {
+        path: "update-menu/:_id",
+        element: (
+          <AdminRoute>
+            <UpdateItem />
+          </AdminRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_apiServerUrl}/menus/${params._id}`),
       },
       {
         path: "manage-bookings",

@@ -86,41 +86,6 @@ async function run() {
       res.send(result);
     });
 
-    // app.delete(
-    //   "/api/delete/menus/:id",
-    //   verifyToken,
-    //   verifyAdmin,
-    //   async (req, res) => {
-    //     const id = req.params.id;
-    //     console.log(id);
-    //     const query = { _id: new ObjectId(id) };
-    //     const query2 = { _id: id };
-    //     console.log(query);
-    //     const result = await menuCollection.deleteOne(query || query2);
-
-    //     res.send(result);
-    //   }
-    // );
-
-    // app.delete(
-    //   "/api/delete/menus/:id",
-    //   verifyToken,
-    //   verifyAdmin,
-    //   async (req, res) => {
-    //     const id = req.params.id;
-    //     console.log("ID from params:", id);
-    //     // Correct query for _id stored as String
-    //     const query = { _id: id }; // <-- REMOVE new ObjectId()
-    //     console.log("Query object (for string _id):", query);
-
-    //     const result = await menuCollection.deleteOne(query);
-    //     console.log("Delete result:", result);
-    //     res.send(result);
-    //   }
-    // );
-
-    const { ObjectId } = require("mongodb"); // Make sure you import ObjectId at the top of your file
-
     app.delete(
       "/api/delete/menus/:id",
       verifyToken,
@@ -156,6 +121,100 @@ async function run() {
         }
       }
     );
+
+    app.get("/api/menus/:_id", async (req, res) => {
+      const id = req.params._id;
+      console.log("Get request for ID:", id);
+
+      // If you know _id in DB are always plain strings:
+      // const query = { _id: id }; // Directly use string ID
+      // console.log("Attempting find with string ID query:", query);
+
+      // If you have a mix and the try-catch for ObjectId failed to catch string-stored ObjectIds
+      // You might need a more sophisticated check, or just try both
+      // const queryObjectId = { _id: new ObjectId(id) };
+      // const queryPlainString = { _id: id };
+
+      try {
+        // Try to find by ObjectId first. If it returns null, try by string.
+        // This is for mixed ID types, and if new ObjectId() doesn't error for string _id that looks like ObjectId
+        let result = await menuCollection.findOne({ _id: new ObjectId(id) });
+        if (!result) {
+          // If not found with ObjectId, try with plain string
+          result = await menuCollection.findOne({ _id: id });
+          console.log(
+            "Tried ObjectId, found null. Attempting find with string ID query:",
+            { _id: id }
+          );
+        } else {
+          console.log("Attempting find with ObjectId query:", {
+            _id: new ObjectId(id),
+          });
+        }
+
+        console.log("Find:", result);
+
+        if (result) {
+          res.send(result);
+        } else {
+          res.status(404).send({ message: "Menu item not found" });
+        }
+      } catch (dbError) {
+        console.error("Database error during getting:", dbError);
+        res
+          .status(500)
+          .send({ message: "Internal server error during getting." });
+      }
+    });
+
+    // app.patch("/api/update/menus/:_id", async (req, res) => {
+    //   const updatedMenu = req.body;
+    //   console.log("Req.body", updatedMenu);
+    //   const id = req.params._id;
+    //   let filter;
+
+    //   try {
+    //     // Attempt to create an ObjectId from the ID string
+    //     // This will throw an error if 'id' is not a valid 24-character hex string
+    //     filter = { _id: new ObjectId(id) };
+    //     console.log("Attempting delete with ObjectId query:", filter);
+    //   } catch (error) {
+    //     // If new ObjectId(id) fails, it means the ID is likely a plain string
+    //     console.warn(
+    //       `ID "${id}" is not a valid ObjectId format. Attempting delete with string ID.`
+    //     );
+    //     filter = { _id: id }; // Use the ID as a plain string
+    //     console.log("Attempting delete with string ID query:", filter);
+    //   }
+
+    //   try {
+    //     const updatedDoc = {
+    //       $set: updatedMenu,
+    //     };
+    //     console.log(updatedDoc);
+    //     const result = await menuCollection.updateOne(filter, updatedDoc);
+
+    //     res.send(result);
+    //   } catch (err) {
+    //     res.status(404);
+    //     console.log(err);
+    //   }
+
+    //   // res.send(result);
+    // });
+
+    app.patch("/api/update/menus/:_id", async (req, res) => {
+      const updatedMenu = req.body;
+      const id = req.params._id;
+      const filter = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set: updatedMenu,
+      };
+
+      const result = await menuCollection.updateOne(filter, updatedDoc);
+
+      res.send(result);
+    });
 
     // review collection
     const reviewsCollection = client

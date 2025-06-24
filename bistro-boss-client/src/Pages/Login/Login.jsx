@@ -1,6 +1,6 @@
 // import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import SocialLogin from "../../components/SocialLogin/SocialLogin";
 // import Swal from "sweetalert2";
 // import {
@@ -10,7 +10,7 @@ import SocialLogin from "../../components/SocialLogin/SocialLogin";
 //   validateCaptcha,
 // } from "react-simple-captcha";
 // import { AuthContext } from "@/Providers/AuthContext";
-// import { Link, useLocation, useNavigate } from "react-router";
+// import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Login() {
   return (

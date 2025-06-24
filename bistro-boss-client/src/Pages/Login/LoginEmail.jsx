@@ -8,7 +8,7 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import { AuthContext } from "@/Providers/AuthContext";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function LoginEmail() {
   const [disable, setDisable] = useState(true);

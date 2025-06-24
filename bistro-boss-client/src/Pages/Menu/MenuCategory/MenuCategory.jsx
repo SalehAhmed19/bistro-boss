@@ -1,6 +1,6 @@
 import MenuItem from "@/components/MenuItem/MenuItem";
 import SectionCover from "@/components/SectionCover/SectionCover";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function MenuCategory({ menus, title, coverImg }) {
   return (
