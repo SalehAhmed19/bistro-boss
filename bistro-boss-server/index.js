@@ -295,6 +295,11 @@ async function run() {
       }
     );
 
+    // Payments
+    const paymentCollection = client
+      .db("bistroDb")
+      .collection("paymentCollection");
+
     // stripe payment
     app.post(
       "/api/create-payment-intent/stripe",
@@ -313,6 +318,23 @@ async function run() {
         });
       }
     );
+
+    // payment - post
+    app.post("/api/payments", verifyToken, async (req, res) => {
+      const payment = req.body;
+      const paymentResult = await paymentCollection.insertOne(payment);
+
+      // delete each item from cart
+      console.log({ paymentInfo: payment });
+      const query = {
+        _id: {
+          $in: payment.cartIds.map((id) => new ObjectId(id)),
+        },
+      };
+
+      const deleteResult = await cartsCollection.deleteMany(query);
+      res.send({ paymentResult, deleteResult });
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });

@@ -12,7 +12,7 @@ export default function Checkout() {
   const [transactionId, setTransactionId] = useState("");
   const stripe = useStripe();
   const elements = useElements();
-  const [carts] = useCarts();
+  const [carts, refetch] = useCarts();
   const axiosSecure = useAxiosSecure();
   const totalPrice = carts.reduce((total, item) => total + item.price, 0);
 
@@ -75,9 +75,26 @@ export default function Checkout() {
 
         Swal.fire({
           title: "Payment Successfull!",
-          html: `<p><span style="font-weight: bold; color: #A5DC86">Transaction ID:</span> <br><span style="color: #FF6900">${transactionId}</span></p>`,
+          html: `<p><span style="font-weight: bold; color: #A5DC86">Transaction ID:</span> <br><span style="color: #FF6900">${paymentIntent.id}</span></p>`,
           icon: "success",
         });
+
+        // now save the payment in the db
+        const payment = {
+          email: user.email,
+          price: totalPrice,
+          transactionId: paymentIntent.id,
+          date: new Date(), // utc date convert - use moment js
+          cartIds: carts.map((item) => item._id),
+          menuIds: carts.map((item) => item.foodId),
+          status: "Pending",
+        };
+
+        const res = await axiosSecure.post("/payments", payment);
+        console.log({ paymentSaved: res });
+        if (res) {
+          refetch();
+        }
       }
     }
   };
