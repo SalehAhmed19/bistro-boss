@@ -3,6 +3,10 @@ const app = express();
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+
+// stripe
+const stripe = require("stripe")(process.env.STRIPE_SK_KEY);
+
 const port = process.env.PORT || 4000 || 5000;
 
 // middleware
@@ -167,42 +171,6 @@ async function run() {
       }
     });
 
-    // app.patch("/api/update/menus/:_id", async (req, res) => {
-    //   const updatedMenu = req.body;
-    //   console.log("Req.body", updatedMenu);
-    //   const id = req.params._id;
-    //   let filter;
-
-    //   try {
-    //     // Attempt to create an ObjectId from the ID string
-    //     // This will throw an error if 'id' is not a valid 24-character hex string
-    //     filter = { _id: new ObjectId(id) };
-    //     console.log("Attempting delete with ObjectId query:", filter);
-    //   } catch (error) {
-    //     // If new ObjectId(id) fails, it means the ID is likely a plain string
-    //     console.warn(
-    //       `ID "${id}" is not a valid ObjectId format. Attempting delete with string ID.`
-    //     );
-    //     filter = { _id: id }; // Use the ID as a plain string
-    //     console.log("Attempting delete with string ID query:", filter);
-    //   }
-
-    //   try {
-    //     const updatedDoc = {
-    //       $set: updatedMenu,
-    //     };
-    //     console.log(updatedDoc);
-    //     const result = await menuCollection.updateOne(filter, updatedDoc);
-
-    //     res.send(result);
-    //   } catch (err) {
-    //     res.status(404);
-    //     console.log(err);
-    //   }
-
-    //   // res.send(result);
-    // });
-
     app.patch("/api/update/menus/:_id", async (req, res) => {
       const updatedMenu = req.body;
       const id = req.params._id;
@@ -324,6 +292,25 @@ async function run() {
         }
 
         res.send({ isAdmin });
+      }
+    );
+
+    // stripe payment
+    app.post(
+      "/api/create-payment-intent/stripe",
+      verifyToken,
+      async (req, res) => {
+        const { price } = req.body;
+        const amount = parseInt(price * 100); // convert to cents
+        const payementIntent = await stripe.paymentIntents.create({
+          amount: amount,
+          currency: "usd",
+          payment_method_types: ["card"],
+        });
+
+        res.send({
+          clientSecret: payementIntent.client_secret,
+        });
       }
     );
 

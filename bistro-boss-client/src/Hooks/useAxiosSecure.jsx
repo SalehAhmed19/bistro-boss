@@ -46,7 +46,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
-import { useEffect } from "react"; // <-- Import useEffect
+import { useEffect, useMemo } from "react"; // <-- Import useEffect
 
 function useAxiosSecure() {
   const navigate = useNavigate();
@@ -54,9 +54,11 @@ function useAxiosSecure() {
 
   // Create the axios instance INSIDE the hook
   // This ensures navigate and logOut are in scope when the interceptors are set up
-  const axiosSecure = axios.create({
-    baseURL: `${import.meta.env.VITE_apiServerUrl}`,
-  });
+  const axiosSecure = useMemo(() => {
+    return axios.create({
+      baseURL: `${import.meta.env.VITE_apiServerUrl}`,
+    });
+  }, []);
 
   // Use useEffect to add interceptors only once when the component mounts
   // and clean them up when it unmounts.

@@ -47,7 +47,8 @@ export default function Cart() {
           <h2 className="text-2xl font-bold uppercase">
             Total Orders: {totalPrice}
           </h2>
-          {cart.lenght ? (
+
+          {cart.length ? (
             <Link to="/dashboard/cart/payment">
               <button className="btn flex">
                 Pay Now <FaMoneyBill className="text-[#D1A054]" />
