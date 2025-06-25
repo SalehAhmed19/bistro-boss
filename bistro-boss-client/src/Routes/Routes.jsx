@@ -68,7 +68,14 @@ export const router = createBrowserRouter([
       { path: "cart", element: <Cart /> },
       { path: "reservation", element: <Reservation /> },
       { path: "cart/payment", element: <Payment /> },
-      { path: "payment-history", element: <PaymentHistory /> },
+      {
+        path: "payment-history/:email",
+        element: <PaymentHistory />,
+        loader: ({ params }) =>
+          fetch(
+            `${import.meta.env.VITE_apiServerUrl}/payment-history/${params._id}`
+          ),
+      },
       { path: "reviews", element: <Reviews /> },
       { path: "orders", element: <Orders /> },
       {

@@ -4,12 +4,14 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useCarts from "../../../Hooks/useCarts";
 import useAuth from "../../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export default function Checkout() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
-  const [transactionId, setTransactionId] = useState("");
+  // const [transactionId, setTransactionId] = useState("");
   const stripe = useStripe();
   const elements = useElements();
   const [carts, refetch] = useCarts();
@@ -17,15 +19,17 @@ export default function Checkout() {
   const totalPrice = carts.reduce((total, item) => total + item.price, 0);
 
   useEffect(() => {
-    axiosSecure
-      .post("/create-payment-intent/stripe", {
-        price: totalPrice,
-      })
-      .then((res) => {
-        console.log(res.data);
-        // console.log({ clientSecret: res.data.clientSecret });
-        setClientSecret(res.data.clientSecret);
-      });
+    if (totalPrice > 0) {
+      axiosSecure
+        .post("/create-payment-intent/stripe", {
+          price: totalPrice,
+        })
+        .then((res) => {
+          console.log(res.data);
+          // console.log({ clientSecret: res.data.clientSecret });
+          setClientSecret(res.data.clientSecret);
+        });
+    }
   }, [axiosSecure, totalPrice]);
 
   const handlePaymentSubmit = async (e) => {
@@ -71,13 +75,7 @@ export default function Checkout() {
       console.log({ paymentIntent });
       if (paymentIntent.status === "succeeded") {
         console.log({ transactionId: paymentIntent.id });
-        setTransactionId(paymentIntent.id);
-
-        Swal.fire({
-          title: "Payment Successfull!",
-          html: `<p><span style="font-weight: bold; color: #A5DC86">Transaction ID:</span> <br><span style="color: #FF6900">${paymentIntent.id}</span></p>`,
-          icon: "success",
-        });
+        // setTransactionId(paymentIntent.id);
 
         // now save the payment in the db
         const payment = {
@@ -87,6 +85,7 @@ export default function Checkout() {
           date: new Date(), // utc date convert - use moment js
           cartIds: carts.map((item) => item._id),
           menuIds: carts.map((item) => item.foodId),
+          cartItems: carts.map((item) => item.name),
           status: "Pending",
         };
 
@@ -94,6 +93,12 @@ export default function Checkout() {
         console.log({ paymentSaved: res });
         if (res) {
           refetch();
+          Swal.fire({
+            title: "Payment Successfull!",
+            html: `<p><span style="font-weight: bold; color: #A5DC86">Transaction ID:</span> <br><span style="color: #FF6900">${paymentIntent.id}</span></p>`,
+            icon: "success",
+          });
+          navigate("/dashboard/orders");
         }
       }
     }

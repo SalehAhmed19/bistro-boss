@@ -16,9 +16,11 @@ import {
 import { MdAdminPanelSettings } from "react-icons/md";
 import useCarts from "../Hooks/useCarts";
 import useAdmin from "../Hooks/useAdmin";
+import useAuth from "../Hooks/useAuth";
 
 export default function Dashboard() {
   const [cart] = useCarts();
+  const { user } = useAuth();
   // TODO: get isAdmin value form the db
   const [isAdmin] = useAdmin();
 
@@ -49,7 +51,7 @@ export default function Dashboard() {
       <li className="text-white py-2">
         <NavLink
           className="flex items-center gap-2"
-          to="/dashboard/payment-history"
+          to={`/dashboard/payment-history/${user.email}`}
         >
           <FaWallet /> Payment History
         </NavLink>

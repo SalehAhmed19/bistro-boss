@@ -336,6 +336,15 @@ async function run() {
       res.send({ paymentResult, deleteResult });
     });
 
+    app.get("/api/all-payments/:email", verifyToken, async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      console.log(query);
+      const payments = await paymentCollection.find(query).toArray();
+
+      res.send(payments);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(

@@ -1,7 +1,12 @@
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
+import useAuth from "../../../Hooks/useAuth";
+import usePaymentHistory from "../../../Hooks/usePaymentHistory";
 
 export default function PaymentHistory() {
   // TODO: payment history - date, transaction id, email
+  const { user } = useAuth();
+  const [refetch, payments] = usePaymentHistory();
+  console.log(payments);
   return (
     <div>
       <SectionTitle
@@ -15,31 +20,44 @@ export default function PaymentHistory() {
           <thead>
             <tr>
               <th>Name / Email</th>
-              <th>Category</th>
+              <th>Items</th>
               <th>Total Price</th>
               <th>Payment Date / Transaction ID</th>
             </tr>
           </thead>
           <tbody>
             {/* row 1 */}
-            <tr>
-              <td>
-                <div className="flex items-center gap-3">
-                  <div>
-                    <div className="font-bold">name</div>
-                    <div className="text-sm opacity-50">email</div>
-                  </div>
-                </div>
-              </td>
-              <td>email</td>
-              <td>$ 20</td>
-              <td>
-                <div>
-                  <p>date</p>
-                  <p className="font-bold text-orange-400">Transaction</p>
-                </div>
-              </td>
-            </tr>
+            {payments &&
+              payments.map((payment) => (
+                <tr>
+                  <td>
+                    <div className="flex items-center gap-3">
+                      <div>
+                        <div className="font-bold">{user.displayName}</div>
+                        <div className="text-sm opacity-50">
+                          {payment.email}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    {payment.cartItems.map((item) => (
+                      <>
+                        {item} <br />
+                      </>
+                    ))}
+                  </td>
+                  <td>$ {payment.price}</td>
+                  <td>
+                    <div>
+                      <p>{payment.date.split("T")[0]}</p>
+                      <p className="font-bold text-orange-400">
+                        {payment.transactionId}
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             {/* ))} */}
           </tbody>
         </table>
