@@ -4,13 +4,14 @@ import Swal from "sweetalert2";
 
 import { FaMoneyBill, FaTrash } from "react-icons/fa";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 export default function Cart() {
   const [cart, refetch] = useCarts();
   const totalPrice = cart.reduce((totat, item) => totat + item.price, 0);
 
   const axiosSecure = useAxiosSecure();
 
-  const handleDelete = (id) => {
+  const handleDelete = (_id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -21,7 +22,7 @@ export default function Cart() {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/delete/carts/${id}`).then((res) => {
+        axiosSecure.delete(`/delete/carts/${_id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             console.log(res);
             refetch();
@@ -46,9 +47,17 @@ export default function Cart() {
           <h2 className="text-2xl font-bold uppercase">
             Total Orders: {totalPrice}
           </h2>
-          <button className="btn flex">
-            Pay Now <FaMoneyBill className="text-[#D1A054]" />
-          </button>
+          {cart.lenght ? (
+            <Link to="/dashboard/cart/payment">
+              <button className="btn flex">
+                Pay Now <FaMoneyBill className="text-[#D1A054]" />
+              </button>
+            </Link>
+          ) : (
+            <button disabled={!cart.length} className="btn flex">
+              Pay Now <FaMoneyBill className="text-[#D1A054]" />
+            </button>
+          )}
         </div>
         <div>
           <div className="overflow-x-auto">

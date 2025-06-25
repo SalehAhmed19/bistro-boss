@@ -20,6 +20,8 @@ import Orders from "../Pages/Dashboard/MyOrders/Orders";
 import LoginLayout from "../Layout/LoginLayout";
 import AdminRoute from "./AdminRoute";
 import UpdateItem from "../Pages/Dashboard/UpdateItem/UpdateItem";
+import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +67,8 @@ export const router = createBrowserRouter([
       { path: "user-home", element: <UserHome /> },
       { path: "cart", element: <Cart /> },
       { path: "reservation", element: <Reservation /> },
+      { path: "cart/payment", element: <Payment /> },
+      { path: "payment-history", element: <PaymentHistory /> },
       { path: "reviews", element: <Reviews /> },
       { path: "orders", element: <Orders /> },
       {

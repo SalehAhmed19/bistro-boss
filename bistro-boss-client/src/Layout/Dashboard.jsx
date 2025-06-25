@@ -11,6 +11,7 @@ import {
   FaUser,
   FaUsers,
   FaUtensils,
+  FaWallet,
 } from "react-icons/fa";
 import { MdAdminPanelSettings } from "react-icons/md";
 import useCarts from "../Hooks/useCarts";
@@ -42,6 +43,15 @@ export default function Dashboard() {
           to="/dashboard/reservation"
         >
           <FaCalendar /> Reservation
+        </NavLink>
+      </li>
+
+      <li className="text-white py-2">
+        <NavLink
+          className="flex items-center gap-2"
+          to="/dashboard/payment-history"
+        >
+          <FaWallet /> Payment History
         </NavLink>
       </li>
 
