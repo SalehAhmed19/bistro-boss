@@ -11,7 +11,7 @@ import MenuCategory from "../MenuCategory/MenuCategory";
 
 export default function Menu() {
   const [, menus] = useMenu();
-  console.log(menus);
+  // console.log(menus);
   const deserts = menus.filter((menu) => menu.category === "dessert");
   const pizza = menus.filter((menu) => menu.category === "pizza");
   const soup = menus.filter((menu) => menu.category === "soup");

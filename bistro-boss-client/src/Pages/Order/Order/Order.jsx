@@ -16,7 +16,7 @@ export default function Order() {
   const [tabIndex, setTabIndex] = useState(initialIdx);
   const [, menus] = useMenu();
 
-  console.log(category);
+  // console.log(category);
 
   const deserts = menus.filter((menu) => menu.category === "dessert");
   const pizza = menus.filter((menu) => menu.category === "pizza");

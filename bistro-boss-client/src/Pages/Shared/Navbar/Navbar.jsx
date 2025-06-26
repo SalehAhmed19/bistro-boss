@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "@/Providers/AuthContext";
 
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
 import useCarts from "@/Hooks/useCarts";
 import useAdmin from "../../../Hooks/useAdmin";
 import { MdAdminPanelSettings } from "react-icons/md";
@@ -17,7 +17,7 @@ export default function Navbar() {
     logOut()
       .then(() => {})
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   };
   const navOptionsUser = (
@@ -93,9 +93,14 @@ export default function Navbar() {
         </ul>
       </div>
 
-      {isAdmin && (
+      {user && isAdmin && (
         <Link to="dashboard/admin-home" className="btn ml-2 text-[#D1A054]">
           Admin Dashboard <MdAdminPanelSettings className="text-2xl" />
+        </Link>
+      )}
+      {user && !isAdmin && (
+        <Link to="dashboard/user-home" className="btn ml-2 text-[#D1A054]">
+          User Dashboard <FaUser />
         </Link>
       )}
       {user ? (

@@ -24,7 +24,7 @@ export default function useMenu() {
     queryFn: async () => {
       const res = await axiosPublic.get("/menus");
 
-      console.log(res.data);
+      // console.log(res.data);
       return res.data;
     },
   });

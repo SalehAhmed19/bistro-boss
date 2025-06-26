@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 export default function SocialLogin() {
   const { googleSignIn } = useAuth();
@@ -17,12 +18,19 @@ export default function SocialLogin() {
         photoURL: res.user?.photoURL,
       };
       axiosPublic.post("/users", userInfo).then((res) => {
-        console.log(res);
+        // console.log(res);
       });
       if (res.user) {
         navigate(from, { replace: true });
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Successfully Logged In!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
-      console.log(res);
+      // console.log(res);
     });
   };
   return (

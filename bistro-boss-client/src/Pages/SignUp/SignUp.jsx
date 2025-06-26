@@ -22,10 +22,10 @@ export default function SignUp() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     createUser(data.email, data.password).then((result) => {
       const loggeduser = result.user;
-      console.log(loggeduser);
+      // console.log(loggeduser);
 
       updateUserProfile(data.name, data.photoUrl)
         .then(() => {
@@ -35,7 +35,7 @@ export default function SignUp() {
             photoURL: data.photoUrl,
           };
 
-          console.log(data);
+          // console.log(data);
           // create user entry in db
           axiosPublic.post("/users", userInfo).then((res) => {
             if (res.data.insertedId) {
@@ -52,12 +52,12 @@ export default function SignUp() {
           });
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     });
   };
 
-  // console.log(watch("example"));
+  // // console.log(watch("example"));
 
   return (
     <>

@@ -11,7 +11,7 @@ export default function AddItems() {
     import.meta.env.VITE_imgbbHostingApi
   }?key=${image_hosting_api_key}`;
 
-  // console.log(image_hosting_api);
+  // // console.log(image_hosting_api);
 
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
@@ -20,15 +20,15 @@ export default function AddItems() {
   const onSubmit = async (data) => {
     const imageFile = { image: data.image[0] };
 
-    console.log(imageFile);
+    // console.log(imageFile);
 
     const formData = new FormData();
     formData.append("image", imageFile.image);
     // upload image and get url
     const res = await axiosPublic.post(image_hosting_api, formData);
-    // console.log(data);
+    // // console.log(data);
 
-    // console.log(res.data);
+    // // console.log(res.data);
 
     if (res) {
       // Now send data to the server
@@ -40,7 +40,7 @@ export default function AddItems() {
         price: parseFloat(data.price),
       };
 
-      console.log(menuItem);
+      // console.log(menuItem);
       const menuRes = await axiosSecure.post("/upload/menu", menuItem);
 
       if (menuRes.data.insertedId) {
@@ -52,13 +52,13 @@ export default function AddItems() {
           timer: 1500,
         });
       }
-      console.log(menuRes.data);
+      // console.log(menuRes.data);
 
       // if (menuRes.data.insertedId) {
 
       // }
 
-      console.log(menuItem);
+      // console.log(menuItem);
     }
 
     reset();

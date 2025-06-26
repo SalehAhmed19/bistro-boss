@@ -6,12 +6,12 @@ export default function usePaymentHistory() {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
-  const { refetch, data: payments } = useQuery({
+  const { refetch, data: payments = [] } = useQuery({
     queryKey: ["payments"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/all-payments/${user.email}`);
 
-      console.log(res);
+      // console.log(res);
       return res.data;
     },
   });

@@ -22,10 +22,10 @@ export default function ManageItems() {
       if (result.isConfirmed) {
         const res = await axiosSecure.delete(`/delete/menus/${menu._id}`);
 
-        console.log(res.data);
+        // console.log(res.data);
 
         if (res.data.deletedCount > 0) {
-          console.log(res);
+          // console.log(res);
           refetch();
           Swal.fire({
             title: "Deleted!",
@@ -33,10 +33,10 @@ export default function ManageItems() {
             icon: "success",
           });
         }
-        console.log(res);
+        // console.log(res);
       }
     });
-    console.log(menu._id);
+    // console.log(menu._id);
   };
   return (
     <div>

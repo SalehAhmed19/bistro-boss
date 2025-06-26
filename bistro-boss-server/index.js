@@ -345,6 +345,101 @@ async function run() {
       res.send(payments);
     });
 
+    // stats
+    app.get("/api/admin/stats", verifyToken, verifyAdmin, async (req, res) => {
+      const users = await usersCollection.estimatedDocumentCount();
+      const menus = await menuCollection.estimatedDocumentCount();
+      const orders = await paymentCollection.estimatedDocumentCount();
+      // this is not the best way
+      // const payments = await paymentCollection.find().toArray();
+      // const revenue = payments.reduce(
+      //   (total, payment) => total + payment.price,
+      //   0
+      // );
+      const result = await paymentCollection
+        .aggregate([
+          {
+            $group: {
+              _id: null,
+              revenue: { $sum: "$price" },
+            },
+          },
+        ])
+        .toArray();
+      console.log(result);
+      const revenue = result.length > 0 ? result[0].revenue : 0;
+
+      res.send({ users, menus, orders, revenue });
+    });
+
+    // order status
+    /**
+     * ---------------------
+     * Non efficient way
+     * ---------------------
+     * 1. load all the payments
+     * 2. for every menuItems (wich is an array), go find the item from menu
+     * 3. for every item in the menu collection that you found from payment entry (document)
+     */
+
+    // using aggregate pipeline
+    app.get(
+      "/api/admin/orders/stats",
+      verifyToken,
+      verifyAdmin,
+      async (req, res) => {
+        const result = await paymentCollection
+          .aggregate([
+            { $unwind: "$menuIds" },
+            {
+              // === CRITICAL FIX: Convert the string ID to ObjectId type ===
+              $addFields: {
+                convertedMenuId: {
+                  $cond: {
+                    if: { $ne: ["$menuIds", null] }, // Check if the ID exists and isn't null
+                    then: { $toObjectId: "$menuIds" }, // Convert to ObjectId
+                    else: null, // Handle cases where menuIds might be null or missing
+                  },
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: "menuCollection",
+                localField: "convertedMenuId",
+                foreignField: "_id",
+                as: "menuItems",
+              },
+            },
+            {
+              $unwind: "$menuItems",
+            },
+            {
+              $group: {
+                _id: "$menuItems.category",
+                quantity: {
+                  $sum: 1, // Count the number of orders for each category
+                },
+                revenue: {
+                  $sum: "$menuItems.price",
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                category: "$_id",
+                quantity: "$quantity",
+                revenue: "$revenue", // Remove the _id field from the output
+              },
+            },
+          ])
+          .toArray();
+
+        res.send(result);
+      }
+    );
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(

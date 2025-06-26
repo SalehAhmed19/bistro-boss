@@ -10,8 +10,8 @@ export default function UpdateItem() {
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
   const item = useLoaderData();
-  console.log(item);
   // console.log(item);
+  // // console.log(item);
   const image_hosting_api_key = import.meta.env.VITE_imgbbApiKey;
   const image_hosting_api = `${
     import.meta.env.VITE_imgbbHostingApi
@@ -20,15 +20,15 @@ export default function UpdateItem() {
   const onSubmit = async (data) => {
     const imageFile = { image: data.image[0] };
 
-    console.log(imageFile);
+    // console.log(imageFile);
 
     const formData = new FormData();
     formData.append("image", imageFile?.image);
     // upload image and get url
     const res = await axiosPublic.post(image_hosting_api, formData);
-    // console.log(data);
+    // // console.log(data);
 
-    // console.log(res.data);
+    // // console.log(res.data);
 
     if (res) {
       // Now send data to the server
@@ -40,7 +40,7 @@ export default function UpdateItem() {
         price: parseFloat(data.price),
       };
 
-      console.log(menuItem);
+      // console.log(menuItem);
       const menuRes = await axiosSecure.patch(
         `/update/menus/${item._id}`,
         menuItem
@@ -55,13 +55,13 @@ export default function UpdateItem() {
           timer: 1500,
         });
       }
-      console.log(menuRes.data);
+      // console.log(menuRes.data);
 
       // if (menuRes.data.insertedId) {
 
       // }
 
-      console.log(menuItem);
+      // console.log(menuItem);
     }
 
     reset();

@@ -5,8 +5,8 @@ import usePaymentHistory from "../../../Hooks/usePaymentHistory";
 export default function PaymentHistory() {
   // TODO: payment history - date, transaction id, email
   const { user } = useAuth();
-  const [refetch, payments] = usePaymentHistory();
-  console.log(payments);
+  const [, payments] = usePaymentHistory();
+  // console.log(payments);
   return (
     <div>
       <SectionTitle
@@ -23,41 +23,40 @@ export default function PaymentHistory() {
               <th>Items</th>
               <th>Total Price</th>
               <th>Payment Date / Transaction ID</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {/* row 1 */}
-            {payments &&
-              payments.map((payment) => (
-                <tr>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div>
-                        <div className="font-bold">{user.displayName}</div>
-                        <div className="text-sm opacity-50">
-                          {payment.email}
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    {payment.cartItems.map((item) => (
-                      <>
-                        {item} <br />
-                      </>
-                    ))}
-                  </td>
-                  <td>$ {payment.price}</td>
-                  <td>
+            {payments.map((payment) => (
+              <tr>
+                <td>
+                  <div className="flex items-center gap-3">
                     <div>
-                      <p>{payment.date.split("T")[0]}</p>
-                      <p className="font-bold text-orange-400">
-                        {payment.transactionId}
-                      </p>
+                      <div className="font-bold">{user.displayName}</div>
+                      <div className="text-sm opacity-50">{payment.email}</div>
                     </div>
-                  </td>
-                </tr>
-              ))}
+                  </div>
+                </td>
+                <td>
+                  {payment.cartItems.map((item) => (
+                    <>
+                      {item} <br />
+                    </>
+                  ))}
+                </td>
+                <td>$ {payment.price}</td>
+                <td>
+                  <div>
+                    <p>{payment.date.split("T")[0]}</p>
+                    <p className="font-bold text-orange-400">
+                      {payment.transactionId}
+                    </p>
+                  </div>
+                </td>
+                <td className="text-slate-300 font-bold">{payment.status}</td>
+              </tr>
+            ))}
             {/* ))} */}
           </tbody>
         </table>

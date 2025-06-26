@@ -30,7 +30,7 @@ export default function FoodCard({ item }) {
       };
 
       axiosSecure.post("/carts", cartItem).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data) {
           Swal.fire({
             position: "top-end",
@@ -62,7 +62,7 @@ export default function FoodCard({ item }) {
         }
       });
     }
-    console.log({ user: user.email });
+    // console.log({ user: user.email });
   };
   return (
     <div className="card bg-base-100 w-96 shadow-sm">

@@ -21,7 +21,7 @@ function AllUsers() {
       if (result.isConfirmed) {
         axiosSecure.delete(`/delete/users/${user._id}`).then((res) => {
           if (res.data.deletedCount > 0) {
-            console.log(res);
+            // console.log(res);
             refetch();
             Swal.fire({
               title: "Deleted!",
@@ -47,7 +47,7 @@ function AllUsers() {
       if (result.isConfirmed) {
         axiosSecure.patch(`/users/admin/${user._id}`).then((res) => {
           if (res.data.modifiedCount > 0) {
-            console.log(res);
+            // console.log(res);
             refetch();
             Swal.fire({
               title: "Done!",

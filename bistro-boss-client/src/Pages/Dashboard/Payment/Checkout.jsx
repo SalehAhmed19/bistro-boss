@@ -25,8 +25,8 @@ export default function Checkout() {
           price: totalPrice,
         })
         .then((res) => {
-          console.log(res.data);
-          // console.log({ clientSecret: res.data.clientSecret });
+          // console.log(res.data);
+          // // console.log({ clientSecret: res.data.clientSecret });
           setClientSecret(res.data.clientSecret);
         });
     }
@@ -51,10 +51,10 @@ export default function Checkout() {
     });
 
     if (error) {
-      console.error("Error from stripe: ", error);
+      // console.error("Error from stripe: ", error);
       setError(error.message);
     } else {
-      console.log("Payment method created: ", paymentMethod);
+      // console.log("Payment method created: ", paymentMethod);
       setError("");
     }
 
@@ -70,11 +70,11 @@ export default function Checkout() {
         },
       });
     if (cardConfirmError) {
-      console.error({ cardConfirmError });
+      // console.error({ cardConfirmError });
     } else {
-      console.log({ paymentIntent });
+      // console.log({ paymentIntent });
       if (paymentIntent.status === "succeeded") {
-        console.log({ transactionId: paymentIntent.id });
+        // console.log({ transactionId: paymentIntent.id });
         // setTransactionId(paymentIntent.id);
 
         // now save the payment in the db
@@ -90,7 +90,7 @@ export default function Checkout() {
         };
 
         const res = await axiosSecure.post("/payments", payment);
-        console.log({ paymentSaved: res });
+        // console.log({ paymentSaved: res });
         if (res) {
           refetch();
           Swal.fire({
@@ -98,7 +98,7 @@ export default function Checkout() {
             html: `<p><span style="font-weight: bold; color: #A5DC86">Transaction ID:</span> <br><span style="color: #FF6900">${paymentIntent.id}</span></p>`,
             icon: "success",
           });
-          navigate("/dashboard/orders");
+          navigate(`/dashboard/payment-history/${user.email}`);
         }
       }
     }
