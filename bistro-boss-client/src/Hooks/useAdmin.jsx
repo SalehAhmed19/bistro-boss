@@ -8,6 +8,7 @@ export default function useAdmin() {
 
   const { data: isAdmin, isPending: isAdminLoading } = useQuery({
     queryKey: [user?.email, "isAdmin"],
+    enabled: !loading && !!user?.email, // Only run query if auth is not loading and user email exists
     queryFn: async () => {
       const res = await axiosSecure.get(
         `users/authorization/admin/${user.email}`
@@ -15,7 +16,6 @@ export default function useAdmin() {
 
       return res.data.isAdmin;
     },
-    enabled: !loading && !!user?.email, // Only run query if auth is not loading and user email exists
   });
 
   return [isAdmin, isAdminLoading];
