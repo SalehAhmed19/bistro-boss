@@ -372,8 +372,8 @@ async function run() {
         // URL Callbacks (your actual URLs should be here)
         success_url:
           "http://localhost:4000/api/payments/ssl-commerce/success-payment",
-        fail_url: "http:localhost:5173/ssl-commerce/fail",
-        cancel_url: "http:localhost:5173/ssl-commerce/cancel",
+        fail_url: "http://localhost:5173/ssl-commerce/fail",
+        cancel_url: "http://localhost:5173/ssl-commerce/cancel",
         ipn_url:
           "http://localhost:4000/api/payments/ssl-commerce/ipn-success-payment",
 
@@ -457,6 +457,24 @@ async function run() {
           },
         }
       );
+
+      const payments = await paymentCollection.findOne({
+        transactionId: isValidPayment.data.tran_id,
+      });
+
+      console.log({ payments });
+      const query = {
+        _id: {
+          $in: payments.cartIds.map((id) => new ObjectId(id)),
+        },
+      };
+
+      const deleteResult = await cartsCollection.deleteMany(query);
+
+      console.log({ deleteResult });
+      // res.send({ paymentResult, deleteResult });
+
+      res.redirect("http://localhost:5173/payments/ssl-commerce/success");
 
       console.log({ updatePayment });
     });
