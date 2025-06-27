@@ -370,12 +370,10 @@ async function run() {
         tran_id: trxId, // Generate dynamically (e.g., `TRANS_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`)
 
         // URL Callbacks (your actual URLs should be here)
-        success_url:
-          "http://localhost:4000/api/payments/ssl-commerce/success-payment",
-        fail_url: "http://localhost:5173/ssl-commerce/fail",
-        cancel_url: "http://localhost:5173/ssl-commerce/cancel",
-        ipn_url:
-          "http://localhost:4000/api/payments/ssl-commerce/ipn-success-payment",
+        success_url: `${process.env.BackendURL}/api/payments/ssl-commerce/success-payment`,
+        fail_url: `${process.env.FrontendURL}/ssl-commerce/fail`,
+        cancel_url: `${process.env.FrontendURL}/ssl-commerce/cancel`,
+        ipn_url: `${process.env.BackendURL}/api/payments/ssl-commerce/ipn-success-payment`,
 
         // Customer Information
         cus_name: `${payment.name}`,
@@ -409,7 +407,7 @@ async function run() {
       // console.log({ initiatePayment: initiate });
 
       const initResponse = await axios({
-        url: "https://sandbox.sslcommerz.com/gwprocess/v4/api.php",
+        url: `${process.env.SSL_InitResponse}`,
         method: "POST",
         data: initiate,
         headers: {
@@ -439,7 +437,7 @@ async function run() {
 
       // validation
       const isValidPayment = await axios.get(
-        `https://sandbox.sslcommerz.com/validator/api/validationserverAPI.php?val_id=${paymentSuccess.val_id}&store_id=${process.env.SSL_StoreID}&store_passwd=${process.env.SSL_StorePassword}`
+        `${process.env.SSL_ValidatePayment}?val_id=${paymentSuccess.val_id}&store_id=${process.env.SSL_StoreID}&store_passwd=${process.env.SSL_StorePassword}`
       );
 
       console.log({ isValidPayment });
@@ -475,7 +473,7 @@ async function run() {
       // res.send({ paymentResult, deleteResult });
 
       res.redirect(
-        `http://localhost:5173/dashboard/payment-history/${payments.email}`
+        `${process.env.FrontendURL}/dashboard/payment-history/${payments.email}`
       );
 
       console.log({ updatePayment });
