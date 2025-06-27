@@ -28,35 +28,42 @@ export default function PaymentHistory() {
           </thead>
           <tbody>
             {/* row 1 */}
-            {payments.map((payment) => (
-              <tr>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div>
-                      <div className="font-bold">{user.displayName}</div>
-                      <div className="text-sm opacity-50">{payment.email}</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  {payment.cartItems.map((item) => (
-                    <>
-                      {item} <br />
-                    </>
-                  ))}
-                </td>
-                <td>৳ {payment.price}</td>
-                <td>
-                  <div>
-                    <p>{payment.date.split("T")[0]}</p>
-                    <p className="font-bold text-orange-400">
-                      {payment.transactionId}
-                    </p>
-                  </div>
-                </td>
-                <td className="text-slate-300 font-bold">{payment.status}</td>
-              </tr>
-            ))}
+            {payments.map(
+              (payment) =>
+                payment.status === "Success" && (
+                  <tr>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <div>
+                          <div className="font-bold">{user.displayName}</div>
+                          <div className="text-sm opacity-50">
+                            {payment.email}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      {payment.cartItems.map((item) => (
+                        <>
+                          {item} <br />
+                        </>
+                      ))}
+                    </td>
+                    <td>৳ {payment.price}</td>
+                    <td>
+                      <div>
+                        <p>{payment.date.split("T")[0]}</p>
+                        <p className="font-bold text-orange-400">
+                          {payment.transactionId}
+                        </p>
+                      </div>
+                    </td>
+                    <td className="text-slate-300 font-bold">
+                      {payment.status}
+                    </td>
+                  </tr>
+                )
+            )}
             {/* ))} */}
           </tbody>
         </table>

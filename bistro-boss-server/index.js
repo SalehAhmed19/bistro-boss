@@ -474,7 +474,9 @@ async function run() {
       console.log({ deleteResult });
       // res.send({ paymentResult, deleteResult });
 
-      res.redirect("http://localhost:5173/payments/ssl-commerce/success");
+      res.redirect(
+        `http://localhost:5173/dashboard/payment-history/${payments.email}`
+      );
 
       console.log({ updatePayment });
     });
