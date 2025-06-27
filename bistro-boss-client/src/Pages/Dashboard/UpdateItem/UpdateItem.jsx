@@ -90,7 +90,7 @@ export default function UpdateItem() {
 
         <div>
           <p className="font-bold">Price</p>
-          <p className="text-sm opacity-50 uppercase">$ {item.price}</p>
+          <p className="text-sm opacity-50 uppercase">৳ {item.price}</p>
         </div>
       </div>
 

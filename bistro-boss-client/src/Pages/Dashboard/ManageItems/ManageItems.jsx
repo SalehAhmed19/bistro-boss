@@ -81,7 +81,7 @@ export default function ManageItems() {
                       </div>
                     </td>
                     <td className="uppercase">{menu.category}</td>
-                    <td>$ {menu.price}</td>
+                    <td>৳ {menu.price}</td>
 
                     <th>
                       <Link to={`/dashboard/update-menu/${menu._id}`}>

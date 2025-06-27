@@ -22,6 +22,7 @@ import AdminRoute from "./AdminRoute";
 import UpdateItem from "../Pages/Dashboard/UpdateItem/UpdateItem";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
 import Payment from "../Pages/Dashboard/Payment/Payment";
+import SSLCommerce from "../Pages/Dashboard/Payment/SSLCommerce/SSLCommerce";
 
 export const router = createBrowserRouter([
   {
@@ -67,7 +68,10 @@ export const router = createBrowserRouter([
       { path: "user-home", element: <UserHome /> },
       { path: "cart", element: <Cart /> },
       { path: "reservation", element: <Reservation /> },
-      { path: "cart/payment", element: <Payment /> },
+      {
+        path: "cart/payment",
+        element: <Payment />,
+      },
       {
         path: "payment-history/:email",
         element: <PaymentHistory />,

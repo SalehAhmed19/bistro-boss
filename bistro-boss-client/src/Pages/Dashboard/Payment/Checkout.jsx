@@ -80,6 +80,12 @@ export default function Checkout() {
         // now save the payment in the db
         const payment = {
           email: user.email,
+          add1: e.target.address1.value,
+          add2: e.target.address2.value,
+          city: e.target.city.value,
+          state: e.target.state.value,
+          postalCode: e.target.postalCode.value,
+          phoneNumber: e.target.phoneNumber.value,
           price: totalPrice,
           transactionId: paymentIntent.id,
           date: new Date(), // utc date convert - use moment js
@@ -107,10 +113,99 @@ export default function Checkout() {
   return (
     <div className="my-5 bg-base-200 p-5 rounded-md">
       <h2 className="text-center font-bold my-5">
-        Pay on Stripe UDS:{" "}
-        <span className="text-orange-500">{totalPrice} $</span>
+        Pay on Stripe BDT:{" "}
+        <span className="text-orange-500">{totalPrice} ৳</span>
       </h2>
       <form onSubmit={handlePaymentSubmit}>
+        <div className="flex gap-5">
+          <fieldset className="fieldset w-full">
+            <legend className="fieldset-legend">Name</legend>
+            <input
+              type="text"
+              className="input"
+              placeholder="Type here"
+              value={user.displayName}
+              name="name"
+              readOnly
+            />
+          </fieldset>
+          <fieldset className="fieldset w-full">
+            <legend className="fieldset-legend">Email</legend>
+            <input
+              type="text"
+              className="input"
+              placeholder="Type here"
+              value={user.email}
+              name="email"
+              readOnly
+            />
+          </fieldset>
+        </div>
+
+        <div className="divider my-10 text-[#d3d3d4]">Shipping Address</div>
+
+        <div className="flex gap-5">
+          <fieldset className="fieldset w-full">
+            <legend className="fieldset-legend">Adress 1</legend>
+            <input
+              type="text"
+              className="input"
+              placeholder="Address 1"
+              name="address1"
+            />
+          </fieldset>
+          <fieldset className="fieldset w-full">
+            <legend className="fieldset-legend">Adress 2</legend>
+            <input
+              type="text"
+              className="input"
+              placeholder="Address 2"
+              name="address2"
+            />
+          </fieldset>
+        </div>
+
+        <div className="grid grid-cols-2 gap-5">
+          <fieldset className="fieldset w-full">
+            <legend className="fieldset-legend">City</legend>
+            <input
+              type="text"
+              className="input"
+              placeholder="City"
+              name="city"
+            />
+          </fieldset>
+          <fieldset className="fieldset w-full">
+            <legend className="fieldset-legend">State</legend>
+            <input
+              type="text"
+              className="input"
+              placeholder="State"
+              name="state"
+            />
+          </fieldset>
+          <fieldset className="fieldset w-full">
+            <legend className="fieldset-legend">Postal Code</legend>
+            <input
+              type="text"
+              className="input"
+              placeholder="Postal Code (Ex: 5840)"
+              name="postalCode"
+            />
+          </fieldset>
+        </div>
+
+        <div className="divider my-10 text-[#d3d3d4]">Contact Details</div>
+        <fieldset className="fieldset w-full mb-10">
+          <legend className="fieldset-legend">Phone Number</legend>
+          <input
+            type="text"
+            className="input"
+            placeholder="Phone Number"
+            name="phoneNumber"
+          />
+        </fieldset>
+
         {clientSecret && (
           <CardElement
             options={{

@@ -12,8 +12,10 @@ const port = process.env.PORT || 4000 || 5000;
 // middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded());
 
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const { default: axios } = require("axios");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@sam-cluster-01.sjti4dh.mongodb.net/?retryWrites=true&w=majority&appName=SAM-Cluster-01`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -44,7 +46,7 @@ async function run() {
 
     // jwt middleware
     const verifyToken = (req, res, next) => {
-      console.log({ insideVerifyToken: req.headers.authorization });
+      // console.log({ insideVerifyToken: req.headers.authorization });
       if (!req.headers.authorization) {
         return res.status(401).send({ message: "Unauthorized Access :(" });
       }
@@ -97,7 +99,7 @@ async function run() {
       verifyAdmin,
       async (req, res) => {
         const id = req.params.id;
-        console.log("Delete request for ID:", id);
+        // console.log("Delete request for ID:", id);
 
         let query;
         try {
@@ -129,7 +131,7 @@ async function run() {
 
     app.get("/api/menus/:_id", async (req, res) => {
       const id = req.params._id;
-      console.log("Get request for ID:", id);
+      // console.log("Get request for ID:", id);
 
       // If you know _id in DB are always plain strings:
       // const query = { _id: id }; // Directly use string ID
@@ -157,7 +159,7 @@ async function run() {
           });
         }
 
-        console.log("Find:", result);
+        // console.log("Find:", result);
 
         if (result) {
           res.send(result);
@@ -326,7 +328,7 @@ async function run() {
       const paymentResult = await paymentCollection.insertOne(payment);
 
       // delete each item from cart
-      console.log({ paymentInfo: payment });
+      // console.log({ paymentInfo: payment });
       const query = {
         _id: {
           $in: payment.cartIds.map((id) => new ObjectId(id)),
@@ -344,6 +346,96 @@ async function run() {
       const payments = await paymentCollection.find(query).toArray();
 
       res.send(payments);
+    });
+
+    // SSL Commerce
+    app.post("/api/payments/ssl-commerce", async (req, res) => {
+      const payment = req.body;
+      // console.log({ paymentSSLCommerce: payment });
+
+      const objectId = new ObjectId();
+      const trxId = "BBR_Trx" + objectId.toString();
+      // console.log(trxId);
+
+      payment.transactionId = trxId;
+
+      const initiate = {
+        // Store Information
+        store_id: process.env.SSL_StoreID, // Typically from process.env.VITE_STORE_ID or passed securely
+        store_passwd: process.env.SSL_StorePassword, // !!! NEVER EXPOSE THIS ON FRONTEND. Fetch from backend/env !!!
+
+        // Transaction Details
+        total_amount: payment.price,
+        currency: "BDT",
+        tran_id: trxId, // Generate dynamically (e.g., `TRANS_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`)
+
+        // URL Callbacks (your actual URLs should be here)
+        success_url:
+          "http://localhost:4000/api/payments/ssl-commerce/success-payment",
+        fail_url: "http:localhost:5173/ssl-commerce/fail",
+        cancel_url: "http:localhost:5173/ssl-commerce/cancel",
+        ipn_url:
+          "http://localhost:4000/api/payments/ssl-commerce/ipn-success-payment",
+
+        // Customer Information
+        cus_name: `${payment.name}`,
+        cus_email: `${payment.email}`,
+        cus_add1: `${payment.add1}`,
+        cus_add2: `${payment.add2}`,
+        cus_city: `${payment.city}`,
+        cus_state: `${payment.state}`,
+        cus_postcode: `${payment.postalCode}`,
+        cus_country: "Bangladesh",
+        cus_phone: `${payment.phoneNumber}`,
+        cus_fax: "", // Optional
+        product_name: "Bistro Boss Order",
+        product_category: "food",
+        product_profile: "physical-food",
+
+        // Shipping Information
+        // ship_name: `${payment.name}`,
+        // ship_add1: `${payment.add1}`,
+        // ship_add2: `${payment.add2}`,
+        // ship_city: `${payment.city}`,
+        // ship_state: `${payment.state}`,
+        // ship_postcode: `${payment.postalCode}`,
+        // ship_country: "Bangladesh",
+        shipping_method: "NO",
+
+        // // Payment Gateway Options
+        // multi_card_name: "mastercard,visacard,amexcard", // Specify desired card types
+      };
+
+      // console.log({ initiatePayment: initiate });
+
+      const initResponse = await axios({
+        url: "https://sandbox.sslcommerz.com/gwprocess/v4/api.php",
+        method: "POST",
+        data: initiate,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+
+      // if (initResponse?.data.status === "SUCCESS") {
+      //   const result = await paymentCollection.insertOne(payment);
+      // }
+
+      const getwayUrl = initResponse?.data?.GatewayPageURL;
+
+      const savePayment = await paymentCollection.insertOne(payment);
+      console.log({ getwayUrl });
+
+      res.send({ getwayUrl });
+
+      // console.log({ initResponse });
+
+      // res.send(result);
+    });
+
+    app.post("/api/payments/ssl-commerce/success-payment", async (req, res) => {
+      const paymentSuccess = req.body;
+      console.log({ paymentSuccess });
     });
 
     // stats
@@ -367,7 +459,7 @@ async function run() {
           },
         ])
         .toArray();
-      console.log(result);
+      // console.log(result);
       const revenue = result.length > 0 ? result[0].revenue : 0;
 
       res.send({ users, menus, orders, revenue });

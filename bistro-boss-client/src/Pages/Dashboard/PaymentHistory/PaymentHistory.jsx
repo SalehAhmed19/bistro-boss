@@ -45,7 +45,7 @@ export default function PaymentHistory() {
                     </>
                   ))}
                 </td>
-                <td>$ {payment.price}</td>
+                <td>৳ {payment.price}</td>
                 <td>
                   <div>
                     <p>{payment.date.split("T")[0]}</p>

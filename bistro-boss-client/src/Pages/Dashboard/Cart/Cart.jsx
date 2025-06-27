@@ -101,7 +101,7 @@ export default function Cart() {
                         $ {item.price}
                       </span> */}
                     </td>
-                    <td>$ {item.price}</td>
+                    <td>৳ {item.price}</td>
                     <th>
                       <button
                         onClick={() => handleDelete(item._id)}

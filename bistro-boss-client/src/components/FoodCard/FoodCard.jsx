@@ -70,7 +70,7 @@ export default function FoodCard({ item }) {
         <img src={image} alt="Shoes" className="rounded-xl" />
       </figure>
       <p className="bg-black text-[#D1A054] absolute right-0 mr-2 mt-2 p-2 rounded-md">
-        $ {price}
+        ৳ {price}
       </p>
       <div className="card-body items-center text-center">
         <h2 className="card-title">{name}</h2>
