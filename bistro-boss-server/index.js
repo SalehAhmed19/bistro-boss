@@ -435,7 +435,30 @@ async function run() {
 
     app.post("/api/payments/ssl-commerce/success-payment", async (req, res) => {
       const paymentSuccess = req.body;
-      console.log({ paymentSuccess });
+      // console.log({ paymentSuccess });
+
+      // validation
+      const isValidPayment = await axios.get(
+        `https://sandbox.sslcommerz.com/validator/api/validationserverAPI.php?val_id=${paymentSuccess.val_id}&store_id=${process.env.SSL_StoreID}&store_passwd=${process.env.SSL_StorePassword}`
+      );
+
+      console.log({ isValidPayment });
+
+      if (isValidPayment.data.status !== "VALID") {
+        return res.status(400).send({ message: "Invalid Payment" });
+      }
+
+      // update payment status to success
+      const updatePayment = await paymentCollection.updateOne(
+        { transactionId: isValidPayment.data.tran_id },
+        {
+          $set: {
+            status: "Success",
+          },
+        }
+      );
+
+      console.log({ updatePayment });
     });
 
     // stats
