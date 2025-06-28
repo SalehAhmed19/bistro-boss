@@ -22,6 +22,7 @@ export default function PaymentHistory() {
               <th>Name / Email</th>
               <th>Items</th>
               <th>Total Price</th>
+              <th>Payment Method</th>
               <th>Payment Date / Transaction ID</th>
               <th>Status</th>
             </tr>
@@ -52,12 +53,19 @@ export default function PaymentHistory() {
                     <td>৳ {payment.price}</td>
                     <td>
                       <div>
+                        <p className="font-bold">{payment.paymentMethod}</p>
+                      </div>
+                    </td>
+                    <td>
+                      <div>
                         <p>{payment.date.split("T")[0]}</p>
+
                         <p className="font-bold text-orange-400">
                           {payment.transactionId}
                         </p>
                       </div>
                     </td>
+
                     <td className="text-slate-300 font-bold">
                       {payment.status}
                     </td>

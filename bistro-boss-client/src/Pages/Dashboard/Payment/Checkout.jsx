@@ -92,7 +92,8 @@ export default function Checkout() {
           cartIds: carts.map((item) => item._id),
           menuIds: carts.map((item) => item.foodId),
           cartItems: carts.map((item) => item.name),
-          status: "Pending",
+          status: "Success",
+          paymentMethod: "Stripe",
         };
 
         const res = await axiosSecure.post("/payments", payment);

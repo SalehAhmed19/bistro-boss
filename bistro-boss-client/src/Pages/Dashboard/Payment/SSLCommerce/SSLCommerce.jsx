@@ -34,6 +34,7 @@ export default function SSLCommerce() {
       menuIds: carts.map((item) => item.foodId),
       cartItems: carts.map((item) => item.name),
       status: "Pending",
+      paymentMethod: "SSL-Commerce",
     };
 
     const res = await axiosSecure.post("/payments/ssl-commerce", payment);
