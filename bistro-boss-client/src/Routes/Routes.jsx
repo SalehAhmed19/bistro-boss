@@ -22,7 +22,7 @@ import AdminRoute from "./AdminRoute";
 import UpdateItem from "../Pages/Dashboard/UpdateItem/UpdateItem";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
 import Payment from "../Pages/Dashboard/Payment/Payment";
-import SSLCommerce from "../Pages/Dashboard/Payment/SSLCommerce/SSLCommerce";
+import StripePaymentReturnPage from "../Pages/Dashboard/Payment/StripePaymentReturnPage";
 
 export const router = createBrowserRouter([
   {
@@ -133,5 +133,12 @@ export const router = createBrowserRouter([
         ),
       },
     ], // Changed to relative path
+  },
+
+  {
+    path: "checkout/return",
+    element: <StripePaymentReturnPage />,
+    // loader: ({ params }) =>
+    //   fetch(`${import.meta.env.VITE_apiServerUrl}/menus/${params._id}`),
   },
 ]);

@@ -479,6 +479,64 @@ async function run() {
       console.log({ updatePayment });
     });
 
+    // stripe - INTEGRATION
+    app.post("/api/create-checkout-session", async (req, res) => {
+      console.log(req.body);
+      const totalPrice = req.body.price;
+      const session = await stripe.checkout.sessions.create({
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: "Food Items",
+              },
+              unit_amount: totalPrice * 100, // Convert to cents
+            },
+            quantity: 1,
+          },
+        ],
+        mode: "payment",
+        ui_mode: "embedded",
+        return_url:
+          "http://localhost:5173/checkout/return?session_id={CHECKOUT_SESSION_ID}",
+        // "https://example.com/checkout/return?session_id={CHECKOUT_SESSION_ID}",
+        // "https://localhost:5173/checkout/session_id={CHECKOUT_SESSION_ID}",
+      });
+
+      res.send({ clientSecret: session.client_secret });
+    });
+
+    app.get("/api/stripe/session_status", async (req, res) => {
+      const session = await stripe.checkout.sessions.retrieve(
+        req.query.session_id
+      );
+
+      res.send({
+        status: session.status,
+        payment_status: session.payment_status,
+        customer_email: session.customer_details.email,
+      });
+    });
+
+    // Assuming 'stripe' is initialized with your secret key
+    // const stripe = require('stripe')('YOUR_STRIPE_SECRET_KEY');
+
+    app.get("/api/checkout-session", async (req, res) => {
+      const { sessionId } = req.query;
+      try {
+        const session = await stripe.checkout.sessions.retrieve(sessionId);
+        res.send({
+          status: session.status,
+          customer_email: session.customer_details.email,
+          // You might also send product details, amount_total, etc.
+        });
+      } catch (error) {
+        console.error("Error retrieving checkout session:", error);
+        res.status(500).send({ error: error.message });
+      }
+    });
+
     // stats
     app.get("/api/admin/stats", verifyToken, verifyAdmin, async (req, res) => {
       const users = await usersCollection.estimatedDocumentCount();

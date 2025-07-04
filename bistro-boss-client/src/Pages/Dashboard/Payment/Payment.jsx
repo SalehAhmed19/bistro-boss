@@ -5,6 +5,7 @@ import Checkout from "./Checkout";
 import { Link, Outlet } from "react-router-dom";
 import SSLCommerce from "./SSLCommerce/SSLCommerce";
 import { useState } from "react";
+import StripePayment from "./StripePayment";
 
 export default function Payment() {
   // TODO: add publishable key from stripe
@@ -24,6 +25,7 @@ export default function Payment() {
       >
         <option disabled={true}>Payment Method</option>
         <option>Stripe</option>
+        <option>Stripe Payment</option>
         <option>SSL Commerce</option>
       </select>
 
@@ -32,6 +34,8 @@ export default function Payment() {
           <Checkout />
         </Elements>
       )}
+
+      {paymentType === "Stripe Payment" && <StripePayment />}
       {paymentType === "SSL Commerce" && <SSLCommerce />}
     </div>
   );
